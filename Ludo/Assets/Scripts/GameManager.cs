@@ -1,7 +1,11 @@
 ﻿using Assets.Scripts;
+using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.InteropServices;
+using UnityEditor;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class GameManager : MonoBehaviour
 {
@@ -79,7 +83,7 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-        //WebGLInput.captureAllKeyboardInput = false; 
+        //WebGLInput.captureAllKeyboardInput = false;
 
         for (int i = 0; i < 4; i++)
         {
@@ -164,7 +168,7 @@ public class GameManager : MonoBehaviour
                         }
 
                         if (newTile1 == null)
-                            Debug.Log("oh no");
+                            return;
 
                         int availableSpot = 0;
 
@@ -226,7 +230,7 @@ public class GameManager : MonoBehaviour
                 movesLeft--;
             }
 
-            //if the pawn is on the last tile of the 
+            //if the pawn is on the last tile of the tileset
             if (pawn.Position == tiles.Length - 1)
             {
                 pawn.Position = 0;
@@ -237,6 +241,38 @@ public class GameManager : MonoBehaviour
             }
 
         } while (movesLeft > 0);
+
+        if (pawn.OnGoalTile)
+            return;
+
+        IEnumerable<Pawn> enemyPawns =
+            playerPawns.Where(
+                p => p.TeamId != pawn.TeamId &&
+                p.Position == pawn.Position);
+
+        if (enemyPawns.Count() > 0)
+        {
+            if (enemyPawns.Count() > 2 || (tiles[pawn.Position].GetComponent<Tile>().Type & (int)TileType.GLOBE) > 0)
+                MovePawnToHome(pawn.Id);
+            else
+                MovePawnToHome(enemyPawns.First().Id);
+
+            return;
+        }
+
+        IEnumerable<Pawn> teamPawns =
+            playerPawns.Where(
+                p => p.Id == pawn.Id &&
+                p.Position == pawn.Position);
+
+        if (teamPawns.Count() > 0 || (tiles[pawn.Position].GetComponent<Tile>().Type & (int)TileType.GLOBE) > 0)
+        {
+            //TODO: add invincibility
+
+            return;
+        }
+
+        //TODO: remove invincibility
     }
 
     void MovePawnToGoal(int idx)
@@ -265,7 +301,30 @@ public class GameManager : MonoBehaviour
         pawn.transform.SetParent(goal.transform.GetChild(availableSpot).transform);
     }
 
+    void MovePawnToHome(int idx)
+    {
+        Pawn pawn = playerPawns[idx];
 
+        pawn.Position = -1;
+
+        Transform obj = homesObject.transform.GetChild(pawn.TeamId);
+        Transform newPos = null;
+        for (int i = 0; i < obj.childCount; i++)
+        {
+            if (obj.GetChild(i).GetChild(0).childCount == 1)
+            {
+                newPos = obj.GetChild(i).GetChild(0).GetChild(0);
+            }
+        }
+
+        if (newPos == null)
+            return;
+
+        //TODO: explosion
+
+        Vector3.Lerp(pawn.transform.position, newPos.position, pieceMoveSpeed * 4);
+        pawn.transform.SetParent(newPos);
+    }
 
     [SerializeField]
     Canvas canvas;
@@ -298,17 +357,15 @@ public class GameManager : MonoBehaviour
         //    selectedPawn.Owner == ownPlayer.Id &&
         //    playerTurn == ownPlayer.Id)
         //{
-            SendMessageToJS("MOVE|" + selectedPawn.Id);
+        SendMessageToJS("MOVE|" + selectedPawn.Id);
         //}
     }
 
     public void Roll()
     {
-        Debug.Log("im here");
-
         //if (playerTurn == ownPlayer.Id)
         //{
-            SendMessageToJS("ROLL");
+        SendMessageToJS("ROLL");
         //}
     }
 

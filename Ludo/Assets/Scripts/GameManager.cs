@@ -258,31 +258,6 @@ public class GameManager : MonoBehaviour
             return;
         }
 
-        void MovePawnToHome(int idx)
-        {
-            Pawn pawn = playerPawns[idx];
-
-            pawn.Position = -1;
-
-            Transform obj = homesObject.transform.GetChild(pawn.TeamId);
-            Transform newPos = null;
-            for (int i = 0; i < obj.childCount; i++)
-            {
-                if (obj.GetChild(i).GetChild(0).childCount == 1)
-                {
-                    newPos = obj.GetChild(i).GetChild(0).GetChild(0);
-                }
-            }
-
-            if (newPos == null)
-                return;
-
-            //TODO: explosion
-
-            Vector3.Lerp(pawn.transform.position, newPos.position, pieceMoveSpeed * 4);
-            pawn.transform.SetParent(newPos);
-        }
-
         IEnumerable<Pawn> teamPawns =
             playerPawns.Where(
                 p => p.TeamId == pawn.TeamId &&
@@ -296,6 +271,31 @@ public class GameManager : MonoBehaviour
         }
 
         pawn.transform.GetChild(0).gameObject.SetActive(false);
+    }
+
+    void MovePawnToHome(int idx)
+    {
+        Pawn pawn = playerPawns[idx];
+
+        pawn.Position = -1;
+
+        Transform obj = homesObject.transform.GetChild(pawn.TeamId);
+        Transform newPos = null;
+        for (int i = 0; i < obj.childCount; i++)
+        {
+            if (obj.GetChild(i).GetChild(0).childCount == 1)
+            {
+                newPos = obj.GetChild(i).GetChild(0).GetChild(0);
+            }
+        }
+
+        if (newPos == null)
+            return;
+
+        //TODO: explosion
+
+        Vector3.Lerp(pawn.transform.position, newPos.position, pieceMoveSpeed * 4);
+        pawn.transform.SetParent(newPos);
     }
 
     void MovePawnToGoal(int idx)

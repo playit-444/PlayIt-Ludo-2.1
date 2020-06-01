@@ -1,0 +1,26 @@
+{
+    "UxmlGuid": "adabff0e2d877314e927520e76241872",
+    "UxmlPath": "Assets/ludoUI.uxml",
+    "CanvasX": 0,
+    "CanvasY": 0,
+    "CanvasWidth": 350,
+    "CanvasHeight": 431,
+    "ZoomScale": 1.0,
+    "PanOffset": {
+        "x": 321.0,
+        "y": 169.5
+    },
+    "CanvasBackgroundOpacity": 1.0,
+    "CanvasBackgroundMode": 0,
+    "CanvasBackgroundColor": {
+        "r": 0.0,
+        "g": 0.0,
+        "b": 0.0,
+        "a": 255.0
+    },
+    "CanvasBackgroundImage": {
+        "instanceID": 0
+    },
+    "CanvasBackgroundImageScaleMode": 1,
+    "CanvasBackgroundCameraName": ""
+}

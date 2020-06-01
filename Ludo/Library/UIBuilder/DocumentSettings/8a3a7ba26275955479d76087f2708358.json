@@ -1,0 +1,26 @@
+{
+    "UxmlGuid": "8a3a7ba26275955479d76087f2708358",
+    "UxmlPath": "Assets/Samples/UI Builder/0.11.2-preview/OptionsPanel/options_panel.uxml",
+    "CanvasX": 0,
+    "CanvasY": 0,
+    "CanvasWidth": 350,
+    "CanvasHeight": 450,
+    "ZoomScale": 1.0,
+    "PanOffset": {
+        "x": 20.0,
+        "y": 20.0
+    },
+    "CanvasBackgroundOpacity": 1.0,
+    "CanvasBackgroundMode": 0,
+    "CanvasBackgroundColor": {
+        "r": 0.0,
+        "g": 0.0,
+        "b": 0.0,
+        "a": 255.0
+    },
+    "CanvasBackgroundImage": {
+        "instanceID": 0
+    },
+    "CanvasBackgroundImageScaleMode": 1,
+    "CanvasBackgroundCameraName": ""
+}

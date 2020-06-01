@@ -81,7 +81,7 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-        WebGLInput.captureAllKeyboardInput = false;
+
 
         for (int i = 0; i < 4; i++)
         {
@@ -91,6 +91,8 @@ public class GameManager : MonoBehaviour
 
             //group under single game object
             home.transform.SetParent(homesObject.transform);
+
+
 
             //assign goal colour
             goals[i].GetComponent<MeshRenderer>().material = teamColours[i];
@@ -104,6 +106,8 @@ public class GameManager : MonoBehaviour
                 goalRoadTiles[(i * 5) + j].GetComponent<MeshRenderer>().material = teamColours[i];
             }
         }
+
+        SendMessageToJS(JsonUtility.ToJson(new GameMessage(string.Empty, "READY", null)));
     }
 
     private void Update()
@@ -332,6 +336,8 @@ public class GameManager : MonoBehaviour
 
     void Initialize()
     {
+        WebGLInput.captureAllKeyboardInput = false;
+
         canvas.enabled = true;
 
         for (int i = 0; i < players.Length; i++)
@@ -358,7 +364,8 @@ public class GameManager : MonoBehaviour
         //    selectedPawn.Owner == ownPlayer.Id &&
         //    playerTurn == ownPlayer.Id)
         //{
-        SendMessageToJS("MOVE|" + selectedPawn.Id);
+        var json = new GameMessage(string.Empty, "MOVE", selectedPawn.Id);
+        SendMessageToJS(JsonUtility.ToJson(json));
         //}
     }
 
@@ -368,7 +375,8 @@ public class GameManager : MonoBehaviour
 
         //if (playerTurn == ownPlayer.Id)
         //{
-        SendMessageToJS("ROLL");
+        var json = new GameMessage(string.Empty, "ROLL", null);
+        SendMessageToJS(JsonUtility.ToJson(json));
         //}
     }
 
@@ -385,4 +393,18 @@ public class GameManager : MonoBehaviour
     {
         text.text = "JS: " + message;
     }
+}
+
+public class GameMessage
+{
+    public GameMessage(string roomId, string action, params object[] args)
+    {
+        RoomId = roomId;
+        Action = action;
+        Args = args;
+    }
+
+    public string RoomId { get; set; }
+    public string Action { get; set; }
+    public object[] Args { get; set; }
 }

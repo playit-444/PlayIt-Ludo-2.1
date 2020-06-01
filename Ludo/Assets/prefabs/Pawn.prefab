@@ -13,12 +13,12 @@ GameObject:
   - component: {fileID: 1212062095330753222}
   - component: {fileID: 6930231062482774556}
   m_Layer: 0
-  m_Name: Cylinder
+  m_Name: Shield
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &699889561526383629
 Transform:
   m_ObjectHideFlags: 0

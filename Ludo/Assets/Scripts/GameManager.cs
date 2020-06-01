@@ -1,5 +1,6 @@
 ﻿using Assets.Scripts;
 using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.InteropServices;
 using UnityEngine;
 using UnityEngine.UI;
@@ -80,7 +81,7 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-        WebGLInput.captureAllKeyboardInput = false; 
+        WebGLInput.captureAllKeyboardInput = false;
 
         for (int i = 0; i < 4; i++)
         {
@@ -238,6 +239,63 @@ public class GameManager : MonoBehaviour
             }
 
         } while (movesLeft > 0);
+
+        if (pawn.OnGoalTile)
+            return;
+
+        IEnumerable<Pawn> enemyPawns =
+            playerPawns.Where(
+                p => p.TeamId != pawn.TeamId &&
+                p.Position == pawn.Position);
+
+        if (enemyPawns.Count() > 0)
+        {
+            if (enemyPawns.Count() > 2 || (tiles[pawn.Position].GetComponent<Tile>().Type & (int)TileType.GLOBE) > 0)
+                MovePawnToHome(pawn.Id);
+            else
+                MovePawnToHome(enemyPawns.First().Id);
+
+            return;
+        }
+
+        void MovePawnToHome(int idx)
+        {
+            Pawn pawn = playerPawns[idx];
+
+            pawn.Position = -1;
+
+            Transform obj = homesObject.transform.GetChild(pawn.TeamId);
+            Transform newPos = null;
+            for (int i = 0; i < obj.childCount; i++)
+            {
+                if (obj.GetChild(i).GetChild(0).childCount == 1)
+                {
+                    newPos = obj.GetChild(i).GetChild(0).GetChild(0);
+                }
+            }
+
+            if (newPos == null)
+                return;
+
+            //TODO: explosion
+
+            Vector3.Lerp(pawn.transform.position, newPos.position, pieceMoveSpeed * 4);
+            pawn.transform.SetParent(newPos);
+        }
+
+        IEnumerable<Pawn> teamPawns =
+            playerPawns.Where(
+                p => p.TeamId == pawn.TeamId &&
+                p.Position == pawn.Position);
+
+        if (teamPawns.Count() > 0 || (tiles[pawn.Position].GetComponent<Tile>().Type & (int)TileType.GLOBE) > 0)
+        {
+            pawn.transform.GetChild(0).gameObject.SetActive(true);
+
+            return;
+        }
+
+        pawn.transform.GetChild(0).gameObject.SetActive(false);
     }
 
     void MovePawnToGoal(int idx)
@@ -265,8 +323,6 @@ public class GameManager : MonoBehaviour
                 pieceMoveSpeed);
         pawn.transform.SetParent(goal.transform.GetChild(availableSpot).transform);
     }
-
-
 
     [SerializeField]
     Canvas canvas;
@@ -302,7 +358,7 @@ public class GameManager : MonoBehaviour
         //    selectedPawn.Owner == ownPlayer.Id &&
         //    playerTurn == ownPlayer.Id)
         //{
-            SendMessageToJS("MOVE|" + selectedPawn.Id);
+        SendMessageToJS("MOVE|" + selectedPawn.Id);
         //}
     }
 
@@ -312,7 +368,7 @@ public class GameManager : MonoBehaviour
 
         //if (playerTurn == ownPlayer.Id)
         //{
-            SendMessageToJS("ROLL");
+        SendMessageToJS("ROLL");
         //}
     }
 

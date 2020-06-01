@@ -371,8 +371,6 @@ public class GameManager : MonoBehaviour
 
     public void Roll()
     {
-        Debug.Log("im here");
-
         //if (playerTurn == ownPlayer.Id)
         //{
         var json = new GameMessage(string.Empty, "ROLL", null);

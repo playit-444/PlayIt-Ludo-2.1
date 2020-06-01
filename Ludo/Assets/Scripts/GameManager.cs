@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
@@ -79,7 +80,7 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-        //WebGLInput.captureAllKeyboardInput = false; 
+        WebGLInput.captureAllKeyboardInput = false; 
 
         for (int i = 0; i < 4; i++)
         {
@@ -270,6 +271,9 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     Canvas canvas;
 
+    [SerializeField]
+    Text text;
+
     void Initialize()
     {
         canvas.enabled = true;
@@ -318,10 +322,11 @@ public class GameManager : MonoBehaviour
     public void SendMessageToJS(string msg)
     {
         HandleUnityMessage(msg);
+        text.text = "U3D: " + msg;
     }
 
     public void HandleMessageFromJS(string message)
     {
-
+        text.text = "JS: " + message;
     }
 }

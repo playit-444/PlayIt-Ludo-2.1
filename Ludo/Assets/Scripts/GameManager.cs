@@ -401,20 +401,31 @@ public class GameManager : MonoBehaviour
         switch (msg.Action)
         {
             case "INIT":
-                List<PlayerData> playerDatas = (List<PlayerData>)msg.Args[0];
-                Debug.Log("got players: " + playerDatas.Count);
+                string[] args = msg.Args.Split('\n');
 
+                players = new Player[args.Length - 1];
 
+                long.TryParse(args[0], out long id);
 
-                players = new Player[playerDatas.Count];
-
-                for (int i = 0; i < players.Length; i++)
+                for (int i = 1; i < args.Length; i++)
                 {
-                    Debug.Log("added player");
-                    players[i] =
-                        players.Length > 2 ?
-                            new Player(playerDatas[i].PlayerId, playerDatas[i].Name, i) :
-                            new Player(playerDatas[i].PlayerId, playerDatas[i].Name, i * 2);
+                    string[] obj = args[i].Split('|');
+                    try
+                    {
+                        if (args.Length > 3)
+                            players[i] = new Player(long.Parse(obj[0]), obj[1], int.Parse(obj[2]));
+                        else
+                            players[i] = new Player(long.Parse(obj[0]) * 2, obj[1], int.Parse(obj[2]));
+
+                        if (players[i].Id == id)
+                            ownPlayer = players[i];
+
+                        Debug.Log("created player");
+                    }
+                    catch (Exception)
+                    {
+                        throw;
+                    }
                 }
 
                 Initialize();
@@ -428,7 +439,7 @@ public class GameManager : MonoBehaviour
 [Serializable]
 public class GameMessage
 {
-    public GameMessage(string roomId, string action, params object[] args)
+    public GameMessage(string roomId, string action, string args)
     {
         RoomId = roomId;
         Action = action;
@@ -437,7 +448,7 @@ public class GameMessage
 
     public string RoomId;
     public string Action;
-    public object[] Args;
+    public string Args;
 }
 
 [Serializable]

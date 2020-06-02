@@ -367,7 +367,7 @@ public class GameManager : MonoBehaviour
         //    selectedPawn.Owner == ownPlayer.Id &&
         //    playerTurn == ownPlayer.Id)
         //{
-        var json = new GameMessage(string.Empty, "MOVE", selectedPawn.Id);
+        var json = new GameMessage(string.Empty, "MOVE", selectedPawn.Id.ToString());
         SendMessageToJS(JsonUtility.ToJson(json));
         //}
     }

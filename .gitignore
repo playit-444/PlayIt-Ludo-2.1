@@ -1,4 +1,3 @@
-*.log
 *.bc
-Ludo/Temp/UnityLockfile
 *.lock
+Ludo/Temp/UnityLockfile

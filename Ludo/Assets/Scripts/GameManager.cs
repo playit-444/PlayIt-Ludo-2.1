@@ -81,7 +81,7 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-
+        WebGLInput.captureAllKeyboardInput = false;
 
         for (int i = 0; i < 4; i++)
         {
@@ -336,8 +336,6 @@ public class GameManager : MonoBehaviour
 
     void Initialize()
     {
-        WebGLInput.captureAllKeyboardInput = false;
-
         canvas.enabled = true;
 
         for (int i = 0; i < players.Length; i++)
@@ -365,7 +363,7 @@ public class GameManager : MonoBehaviour
         //    playerTurn == ownPlayer.Id)
         //{
         var json = new GameMessage(string.Empty, "MOVE", selectedPawn.Id);
-        //SendMessageToJS(JsonUtility.ToJson(json));
+        SendMessageToJS(JsonUtility.ToJson(json));
         //}
     }
 
@@ -374,7 +372,8 @@ public class GameManager : MonoBehaviour
         //if (playerTurn == ownPlayer.Id)
         //{
         var json = new GameMessage(string.Empty, "ROLL", null);
-        //SendMessageToJS(JsonUtility.ToJson(json));
+        
+        SendMessageToJS(JsonUtility.ToJson(json));
         //}
     }
 
@@ -383,6 +382,7 @@ public class GameManager : MonoBehaviour
 
     public void SendMessageToJS(string msg)
     {
+        text.text = "TRY U3D: " + msg;
         HandleUnityMessage(msg);
         text.text = "U3D: " + msg;
     }

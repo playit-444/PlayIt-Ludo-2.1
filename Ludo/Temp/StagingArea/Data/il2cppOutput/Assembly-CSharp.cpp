@@ -161,6 +161,7 @@ IL2CPP_EXTERN_C String_t* _stringLiteral0CB715D89D6589E699639FF0716A2BE52C44EEEE
 IL2CPP_EXTERN_C String_t* _stringLiteral1AC709BD6000B7CD089ABBBF14CFAF228CC11E9C;
 IL2CPP_EXTERN_C String_t* _stringLiteral2F565DB17C77B2FA2169003276D278FA1CB7B871;
 IL2CPP_EXTERN_C String_t* _stringLiteral3BF08A84F15B98CE4D14B707F4A093B3CC8B853E;
+IL2CPP_EXTERN_C String_t* _stringLiteralA56BE00657AB09790B20B8764D15997B57ACDF65;
 IL2CPP_EXTERN_C String_t* _stringLiteralCBDC894761432E6E4F3F3CF34CDE6881CFAA0C25;
 IL2CPP_EXTERN_C String_t* _stringLiteralD9F9D65FE26CA95561E112517D68F5C0FF5F96CA;
 IL2CPP_EXTERN_C String_t* _stringLiteralEF4D40A27007EDEE2935C0C47A8789C2E9045F1B;
@@ -2493,6 +2494,8 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR RuntimeObject * GameObject_AddComponent_TisRu
 
 // System.Void System.Object::.ctor()
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void Object__ctor_m925ECA5E85CA100E3FB86A4F9E15C120E9A184C0 (RuntimeObject * __this, const RuntimeMethod* method);
+// System.Void UnityEngine.WebGLInput::set_captureAllKeyboardInput(System.Boolean)
+IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void WebGLInput_set_captureAllKeyboardInput_m4D4615B54D4CED52198FFE53BDAE27548C0194E6 (bool ___value0, const RuntimeMethod* method);
 // UnityEngine.Quaternion UnityEngine.Quaternion::get_identity()
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR Quaternion_t319F3319A7D43FFA5D819AD6C0A98851F0095357  Quaternion_get_identity_m548B37D80F2DEE60E41D1F09BF6889B557BE1A64 (const RuntimeMethod* method);
 // !!0 UnityEngine.Object::Instantiate<UnityEngine.GameObject>(!!0,UnityEngine.Vector3,UnityEngine.Quaternion)
@@ -2607,8 +2610,6 @@ inline Pawn_t4753B88345A3FDAB474A91ADF1145AFE05B4D992 * Enumerable_First_TisPawn
 }
 // System.Void UnityEngine.GameObject::SetActive(System.Boolean)
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void GameObject_SetActive_m25A39F6D9FB68C51F13313F9804E85ACC937BC04 (GameObject_tBD1244AD56B4E59AAD76E5E7C9282EC5CE434F0F * __this, bool ___value0, const RuntimeMethod* method);
-// System.Void UnityEngine.WebGLInput::set_captureAllKeyboardInput(System.Boolean)
-IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void WebGLInput_set_captureAllKeyboardInput_m4D4615B54D4CED52198FFE53BDAE27548C0194E6 (bool ___value0, const RuntimeMethod* method);
 // System.Void UnityEngine.Behaviour::set_enabled(System.Boolean)
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void Behaviour_set_enabled_m9755D3B17D7022D23D1E4C618BD9A6B66A5ADC6B (Behaviour_tBDC7E9C3C898AD8348891B82D3E345801D920CA8 * __this, bool ___value0, const RuntimeMethod* method);
 // System.Int32 Assets.Scripts.Player::get_TeamId()
@@ -2628,6 +2629,10 @@ IL2CPP_EXTERN_C inline  IL2CPP_METHOD_ATTR void Pawn_set_Owner_m30CB3E5DFD903421
 IL2CPP_EXTERN_C inline  IL2CPP_METHOD_ATTR void Pawn_set_TeamId_m57127E97E0CFA3AD1E81A9724FCBB91E6A15DEDE_inline (Pawn_t4753B88345A3FDAB474A91ADF1145AFE05B4D992 * __this, int32_t ___value0, const RuntimeMethod* method);
 // System.Void GameMessage::.ctor(System.String,System.String,System.Object[])
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void GameMessage__ctor_m60130ED37B1584D4421E99502FBAFD6D5C15B1BA (GameMessage_tA9BAFD405201693520651EF9831C04120F862005 * __this, String_t* ___roomId0, String_t* ___action1, ObjectU5BU5D_t3C9242B5C88A48B2A5BD9FDA6CD0024E792AF08A* ___args2, const RuntimeMethod* method);
+// System.String UnityEngine.JsonUtility::ToJson(System.Object)
+IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR String_t* JsonUtility_ToJson_m588D3BCFA6FC7FA342FC221D4CB02729E901E573 (RuntimeObject * ___obj0, const RuntimeMethod* method);
+// System.Void GameManager::SendMessageToJS(System.String)
+IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void GameManager_SendMessageToJS_mDDB88C291AF1B990563EBFFFC8F25B99F61AF0D5 (GameManager_tAC830B937D5E37F47803FE8AB44CAB0762B77B89 * __this, String_t* ___msg0, const RuntimeMethod* method);
 // System.Void GameManager::HandleUnityMessage(System.String)
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void GameManager_HandleUnityMessage_mDE3CBF4702A2EDE05D368AEDC576D4F2A291D07B (String_t* ___message0, const RuntimeMethod* method);
 // System.Void UnityEngine.MonoBehaviour::.ctor()
@@ -2784,12 +2789,14 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void GameManager_Start_mD77CCDBF1DA8EC5C3AE7E
 	int32_t V_0 = 0;
 	int32_t V_1 = 0;
 	{
+		// WebGLInput.captureAllKeyboardInput = false;
+		WebGLInput_set_captureAllKeyboardInput_m4D4615B54D4CED52198FFE53BDAE27548C0194E6((bool)0, /*hidden argument*/NULL);
 		// for (int i = 0; i < 4; i++)
 		V_0 = 0;
-		goto IL_00b3;
+		goto IL_00b9;
 	}
 
-IL_0007:
+IL_000d:
 	{
 		// GameObject home = Instantiate(homePrefab, homePositions[i], Quaternion.identity);
 		GameObject_tBD1244AD56B4E59AAD76E5E7C9282EC5CE434F0F * L_0 = __this->get_homePrefab_5();
@@ -2839,10 +2846,10 @@ IL_0007:
 		Renderer_set_material_mB4988AD6A93C7FDACC4C07A99D1DAC23D10C0344(L_30, L_34, /*hidden argument*/NULL);
 		// for (int j = 0; j < 5; j++)
 		V_1 = 0;
-		goto IL_00ab;
+		goto IL_00b1;
 	}
 
-IL_0089:
+IL_008f:
 	{
 		// goalRoadTiles[(i * 5) + j].GetComponent<MeshRenderer>().material = teamColours[i];
 		GameObjectU5BU5D_tBF9D474747511CF34A040A1697E34C74C19BB520* L_35 = __this->get_goalRoadTiles_13();
@@ -2861,13 +2868,13 @@ IL_0089:
 		V_1 = ((int32_t)il2cpp_codegen_add((int32_t)L_45, (int32_t)1));
 	}
 
-IL_00ab:
+IL_00b1:
 	{
 		// for (int j = 0; j < 5; j++)
 		int32_t L_46 = V_1;
 		if ((((int32_t)L_46) < ((int32_t)5)))
 		{
-			goto IL_0089;
+			goto IL_008f;
 		}
 	}
 	{
@@ -2876,13 +2883,13 @@ IL_00ab:
 		V_0 = ((int32_t)il2cpp_codegen_add((int32_t)L_47, (int32_t)1));
 	}
 
-IL_00b3:
+IL_00b9:
 	{
 		// for (int i = 0; i < 4; i++)
 		int32_t L_48 = V_0;
 		if ((((int32_t)L_48) < ((int32_t)4)))
 		{
-			goto IL_0007;
+			goto IL_000d;
 		}
 	}
 	{
@@ -3848,17 +3855,15 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void GameManager_Initialize_m817384BE4FBC5FBD
 	GameObject_tBD1244AD56B4E59AAD76E5E7C9282EC5CE434F0F * V_1 = NULL;
 	int32_t V_2 = 0;
 	{
-		// WebGLInput.captureAllKeyboardInput = false;
-		WebGLInput_set_captureAllKeyboardInput_m4D4615B54D4CED52198FFE53BDAE27548C0194E6((bool)0, /*hidden argument*/NULL);
 		// canvas.enabled = true;
 		Canvas_tBC28BF1DD8D8499A89B5781505833D3728CF8591 * L_0 = __this->get_canvas_22();
 		Behaviour_set_enabled_m9755D3B17D7022D23D1E4C618BD9A6B66A5ADC6B(L_0, (bool)1, /*hidden argument*/NULL);
 		// for (int i = 0; i < players.Length; i++)
 		V_0 = 0;
-		goto IL_00c2;
+		goto IL_00bc;
 	}
 
-IL_0019:
+IL_0013:
 	{
 		// GameObject home = homesObject.transform.GetChild(players[i].TeamId).gameObject;
 		GameObject_tBD1244AD56B4E59AAD76E5E7C9282EC5CE434F0F * L_1 = __this->get_homesObject_9();
@@ -3873,10 +3878,10 @@ IL_0019:
 		V_1 = L_9;
 		// for (int j = 0; j < 4; j++)
 		V_2 = 0;
-		goto IL_00ba;
+		goto IL_00b4;
 	}
 
-IL_0040:
+IL_003a:
 	{
 		// GameObject pawn = Instantiate(pawnPrefab, home.transform.GetChild(j).GetChild(0).position, Quaternion.identity);
 		GameObject_tBD1244AD56B4E59AAD76E5E7C9282EC5CE434F0F * L_10 = __this->get_pawnPrefab_6();
@@ -3928,13 +3933,13 @@ IL_0040:
 		V_2 = ((int32_t)il2cpp_codegen_add((int32_t)L_41, (int32_t)1));
 	}
 
-IL_00ba:
+IL_00b4:
 	{
 		// for (int j = 0; j < 4; j++)
 		int32_t L_42 = V_2;
 		if ((((int32_t)L_42) < ((int32_t)4)))
 		{
-			goto IL_0040;
+			goto IL_003a;
 		}
 	}
 	{
@@ -3943,14 +3948,14 @@ IL_00ba:
 		V_0 = ((int32_t)il2cpp_codegen_add((int32_t)L_43, (int32_t)1));
 	}
 
-IL_00c2:
+IL_00bc:
 	{
 		// for (int i = 0; i < players.Length; i++)
 		int32_t L_44 = V_0;
 		PlayerU5BU5D_t79368719034D514180C714B587DCBCE96236497F* L_45 = __this->get_players_15();
 		if ((((int32_t)L_44) < ((int32_t)(((int32_t)((int32_t)(((RuntimeArray*)L_45)->max_length)))))))
 		{
-			goto IL_0019;
+			goto IL_0013;
 		}
 	}
 	{
@@ -3967,6 +3972,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void GameManager_SelectPawn_mE2A1712B0ED83B33
 		il2cpp_codegen_initialize_method (GameManager_SelectPawn_mE2A1712B0ED83B33FE01A5C8A07CBA4140BA86A7_MetadataUsageId);
 		s_Il2CppMethodInitialized = true;
 	}
+	GameMessage_tA9BAFD405201693520651EF9831C04120F862005 * V_0 = NULL;
 	{
 		// var json = new GameMessage(string.Empty, "MOVE", selectedPawn.Id);
 		String_t* L_0 = ((String_t_StaticFields*)il2cpp_codegen_static_fields_for(String_t_il2cpp_TypeInfo_var))->get_Empty_5();
@@ -3980,6 +3986,11 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void GameManager_SelectPawn_mE2A1712B0ED83B33
 		(L_2)->SetAtUnchecked(static_cast<il2cpp_array_size_t>(0), (RuntimeObject *)L_6);
 		GameMessage_tA9BAFD405201693520651EF9831C04120F862005 * L_7 = (GameMessage_tA9BAFD405201693520651EF9831C04120F862005 *)il2cpp_codegen_object_new(GameMessage_tA9BAFD405201693520651EF9831C04120F862005_il2cpp_TypeInfo_var);
 		GameMessage__ctor_m60130ED37B1584D4421E99502FBAFD6D5C15B1BA(L_7, L_0, _stringLiteral3BF08A84F15B98CE4D14B707F4A093B3CC8B853E, L_2, /*hidden argument*/NULL);
+		V_0 = L_7;
+		// SendMessageToJS(JsonUtility.ToJson(json));
+		GameMessage_tA9BAFD405201693520651EF9831C04120F862005 * L_8 = V_0;
+		String_t* L_9 = JsonUtility_ToJson_m588D3BCFA6FC7FA342FC221D4CB02729E901E573(L_8, /*hidden argument*/NULL);
+		GameManager_SendMessageToJS_mDDB88C291AF1B990563EBFFFC8F25B99F61AF0D5(__this, L_9, /*hidden argument*/NULL);
 		// }
 		return;
 	}
@@ -3993,11 +4004,17 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void GameManager_Roll_m97D84DF3F3227C1BD1567D
 		il2cpp_codegen_initialize_method (GameManager_Roll_m97D84DF3F3227C1BD1567DC4257308D575EF39EC_MetadataUsageId);
 		s_Il2CppMethodInitialized = true;
 	}
+	GameMessage_tA9BAFD405201693520651EF9831C04120F862005 * V_0 = NULL;
 	{
 		// var json = new GameMessage(string.Empty, "ROLL", null);
 		String_t* L_0 = ((String_t_StaticFields*)il2cpp_codegen_static_fields_for(String_t_il2cpp_TypeInfo_var))->get_Empty_5();
 		GameMessage_tA9BAFD405201693520651EF9831C04120F862005 * L_1 = (GameMessage_tA9BAFD405201693520651EF9831C04120F862005 *)il2cpp_codegen_object_new(GameMessage_tA9BAFD405201693520651EF9831C04120F862005_il2cpp_TypeInfo_var);
 		GameMessage__ctor_m60130ED37B1584D4421E99502FBAFD6D5C15B1BA(L_1, L_0, _stringLiteralD9F9D65FE26CA95561E112517D68F5C0FF5F96CA, (ObjectU5BU5D_t3C9242B5C88A48B2A5BD9FDA6CD0024E792AF08A*)(ObjectU5BU5D_t3C9242B5C88A48B2A5BD9FDA6CD0024E792AF08A*)NULL, /*hidden argument*/NULL);
+		V_0 = L_1;
+		// SendMessageToJS(JsonUtility.ToJson(json));
+		GameMessage_tA9BAFD405201693520651EF9831C04120F862005 * L_2 = V_0;
+		String_t* L_3 = JsonUtility_ToJson_m588D3BCFA6FC7FA342FC221D4CB02729E901E573(L_2, /*hidden argument*/NULL);
+		GameManager_SendMessageToJS_mDDB88C291AF1B990563EBFFFC8F25B99F61AF0D5(__this, L_3, /*hidden argument*/NULL);
 		// }
 		return;
 	}
@@ -4030,14 +4047,19 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void GameManager_SendMessageToJS_mDDB88C291AF
 		s_Il2CppMethodInitialized = true;
 	}
 	{
+		// text.text = "TRY U3D: " + msg;
+		Text_tE9317B57477F4B50AA4C16F460DE6F82DAD6D030 * L_0 = __this->get_text_23();
+		String_t* L_1 = ___msg0;
+		String_t* L_2 = String_Concat_mB78D0094592718DA6D5DB6C712A9C225631666BE(_stringLiteralA56BE00657AB09790B20B8764D15997B57ACDF65, L_1, /*hidden argument*/NULL);
+		VirtActionInvoker1< String_t* >::Invoke(73 /* System.Void UnityEngine.UI.Text::set_text(System.String) */, L_0, L_2);
 		// HandleUnityMessage(msg);
-		String_t* L_0 = ___msg0;
-		GameManager_HandleUnityMessage_mDE3CBF4702A2EDE05D368AEDC576D4F2A291D07B(L_0, /*hidden argument*/NULL);
+		String_t* L_3 = ___msg0;
+		GameManager_HandleUnityMessage_mDE3CBF4702A2EDE05D368AEDC576D4F2A291D07B(L_3, /*hidden argument*/NULL);
 		// text.text = "U3D: " + msg;
-		Text_tE9317B57477F4B50AA4C16F460DE6F82DAD6D030 * L_1 = __this->get_text_23();
-		String_t* L_2 = ___msg0;
-		String_t* L_3 = String_Concat_mB78D0094592718DA6D5DB6C712A9C225631666BE(_stringLiteralCBDC894761432E6E4F3F3CF34CDE6881CFAA0C25, L_2, /*hidden argument*/NULL);
-		VirtActionInvoker1< String_t* >::Invoke(73 /* System.Void UnityEngine.UI.Text::set_text(System.String) */, L_1, L_3);
+		Text_tE9317B57477F4B50AA4C16F460DE6F82DAD6D030 * L_4 = __this->get_text_23();
+		String_t* L_5 = ___msg0;
+		String_t* L_6 = String_Concat_mB78D0094592718DA6D5DB6C712A9C225631666BE(_stringLiteralCBDC894761432E6E4F3F3CF34CDE6881CFAA0C25, L_5, /*hidden argument*/NULL);
+		VirtActionInvoker1< String_t* >::Invoke(73 /* System.Void UnityEngine.UI.Text::set_text(System.String) */, L_4, L_6);
 		// }
 		return;
 	}

@@ -276,6 +276,7 @@ UnityEngine.Input::set_compositionCursorPos_Injected
 UnityEngine.Input::set_imeCompositionMode
 UnityEngine.Input::get_imeCompositionMode
 UnityEngine.IntegratedSubsystem::SetHandle
+UnityEngine.JsonUtility::ToJsonInternal
 UnityEngine.Light::get_bounceIntensity
 UnityEngine.Light::get_innerSpotAngle
 UnityEngine.Light::get_intensity

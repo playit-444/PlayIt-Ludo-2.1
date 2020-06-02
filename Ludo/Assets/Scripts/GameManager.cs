@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -393,6 +394,7 @@ public class GameManager : MonoBehaviour
     }
 }
 
+[Serializable]
 public class GameMessage
 {
     public GameMessage(string roomId, string action, params object[] args)

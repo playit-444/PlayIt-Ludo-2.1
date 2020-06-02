@@ -414,9 +414,9 @@ public class GameManager : MonoBehaviour
                     try
                     {
                         if (args.Length > 3)
-                            players[i] = new Player(long.Parse(obj[0]), obj[1], int.Parse(obj[2]));
+                            players[i] = new Player(long.Parse(obj[0],NumberStyles.Integer, CultureInfo.InvariantCulture), obj[1], int.Parse(obj[2], NumberStyles.Integer, CultureInfo.InvariantCulture));
                         else
-                            players[i] = new Player(long.Parse(obj[0]) * 2, obj[1], int.Parse(obj[2]));
+                            players[i] = new Player(long.Parse(obj[0], NumberStyles.Integer, CultureInfo.InvariantCulture) * 2, obj[1], int.Parse(obj[2], NumberStyles.Integer, CultureInfo.InvariantCulture));
 
                         Transform playerHUD = canvas.transform.GetChild(2);
                         Text t = playerHUD.GetChild(1).gameObject.GetComponent<Text>();

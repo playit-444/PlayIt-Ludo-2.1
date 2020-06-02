@@ -355,6 +355,8 @@ public class GameManager : MonoBehaviour
                 p.Owner = players[i].Id;
                 p.TeamId = i;
             }
+
+            Debug.Log("creates pawns for player: " + players[i].Name);
         }
     }
 
@@ -399,13 +401,16 @@ public class GameManager : MonoBehaviour
         switch (msg.Action)
         {
             case "INIT":
-                List<PlayerData> playerDatas =
-                    JsonUtility.FromJson<List<PlayerData>>(msg.Args[0].ToString());
+                List<PlayerData> playerDatas = (List<PlayerData>)msg.Args[0];
+                Debug.Log("got players: " + playerDatas.Count);
+
+
 
                 players = new Player[playerDatas.Count];
 
                 for (int i = 0; i < players.Length; i++)
                 {
+                    Debug.Log("added player");
                     players[i] =
                         players.Length > 2 ?
                             new Player(playerDatas[i].PlayerId, playerDatas[i].Name, i) :

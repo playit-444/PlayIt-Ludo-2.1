@@ -402,7 +402,7 @@ public class GameMessage
         Args = args;
     }
 
-    public string RoomId { get; set; }
-    public string Action { get; set; }
-    public object[] Args { get; set; }
+    public string RoomId;
+    public string Action;
+    public object[] Args;
 }

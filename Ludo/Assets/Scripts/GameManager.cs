@@ -1,6 +1,7 @@
 ﻿using Assets.Scripts;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Runtime.InteropServices;
 using UnityEngine;
@@ -405,7 +406,7 @@ public class GameManager : MonoBehaviour
 
                 players = new Player[args.Length - 1];
 
-                long.TryParse(args[0], out long id);
+                long.TryParse(args[0], NumberStyles.Integer, CultureInfo.InvariantCulture, out long id);
 
                 for (int i = 1; i < args.Length; i++)
                 {
@@ -417,8 +418,20 @@ public class GameManager : MonoBehaviour
                         else
                             players[i] = new Player(long.Parse(obj[0]) * 2, obj[1], int.Parse(obj[2]));
 
+                        Transform playerHUD = canvas.transform.GetChild(2);
+                        Text t = playerHUD.GetChild(1).gameObject.GetComponent<Text>();
+                        t.text = players[i].Name;
+                        t.enabled = true;
+
                         if (players[i].Id == id)
+                        {
                             ownPlayer = players[i];
+                            t.color = Color.green;
+                        }
+                        else
+                        {
+                            t.color = Color.black;
+                        }
 
                         Debug.Log("created player");
                     }

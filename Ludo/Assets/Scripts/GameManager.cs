@@ -107,7 +107,7 @@ public class GameManager : MonoBehaviour
             }
         }
 
-        SendMessageToJS(JsonUtility.ToJson(new GameMessage(string.Empty, "READY", null)));
+       // SendMessageToJS(JsonUtility.ToJson(new GameMessage(string.Empty, "READY", null)));
     }
 
     private void Update()
@@ -365,7 +365,7 @@ public class GameManager : MonoBehaviour
         //    playerTurn == ownPlayer.Id)
         //{
         var json = new GameMessage(string.Empty, "MOVE", selectedPawn.Id);
-        SendMessageToJS(JsonUtility.ToJson(json));
+        //SendMessageToJS(JsonUtility.ToJson(json));
         //}
     }
 
@@ -374,7 +374,7 @@ public class GameManager : MonoBehaviour
         //if (playerTurn == ownPlayer.Id)
         //{
         var json = new GameMessage(string.Empty, "ROLL", null);
-        SendMessageToJS(JsonUtility.ToJson(json));
+        //SendMessageToJS(JsonUtility.ToJson(json));
         //}
     }
 

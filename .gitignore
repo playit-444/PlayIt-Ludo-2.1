@@ -2,6 +2,5 @@
 *.bc
 Ludo/Temp/UnityLockfile
 Ludo/Library/ArtifactDB
-Ludo/Library/Artifacts/*
 Ludo/Temp/*
 *.lock

@@ -8,6 +8,7 @@ using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
+    private string roomId;
 
     [DllImport("__Internal")]
     private static extern void HandleUnityMessage(string message);
@@ -84,6 +85,8 @@ public class GameManager : MonoBehaviour
     {
         WebGLInput.captureAllKeyboardInput = false;
 
+        canvas.transform.GetChild(0).gameObject.SetActive(false);
+
         for (int i = 0; i < 4; i++)
         {
             //assing homes and materials for said homes
@@ -92,8 +95,6 @@ public class GameManager : MonoBehaviour
 
             //group under single game object
             home.transform.SetParent(homesObject.transform);
-
-
 
             //assign goal colour
             goals[i].GetComponent<MeshRenderer>().material = teamColours[i];
@@ -108,7 +109,7 @@ public class GameManager : MonoBehaviour
             }
         }
 
-       // SendMessageToJS(JsonUtility.ToJson(new GameMessage(string.Empty, "READY", null)));
+        SendMessageToJS(JsonUtility.ToJson(new GameMessage(string.Empty, "READY", null)));
     }
 
     private void Update()
@@ -337,7 +338,8 @@ public class GameManager : MonoBehaviour
 
     void Initialize()
     {
-        canvas.enabled = true;
+        //set button to active
+        canvas.transform.GetChild(0).gameObject.SetActive(true);
 
         for (int i = 0; i < players.Length; i++)
         {
@@ -373,7 +375,7 @@ public class GameManager : MonoBehaviour
         //if (playerTurn == ownPlayer.Id)
         //{
         var json = new GameMessage(string.Empty, "ROLL", null);
-        
+
         SendMessageToJS(JsonUtility.ToJson(json));
         //}
     }
@@ -391,6 +393,30 @@ public class GameManager : MonoBehaviour
     public void HandleMessageFromJS(string message)
     {
         text.text = "JS: " + message;
+
+        GameMessage msg = JsonUtility.FromJson<GameMessage>(message);
+
+        switch (msg.Action)
+        {
+            case "INIT":
+                List<PlayerData> playerDatas =
+                    JsonUtility.FromJson<List<PlayerData>>(msg.Args[0].ToString());
+
+                players = new Player[playerDatas.Count];
+
+                for (int i = 0; i < players.Length; i++)
+                {
+                    players[i] =
+                        players.Length > 2 ?
+                            new Player(playerDatas[i].PlayerId, playerDatas[i].Name, i) :
+                            new Player(playerDatas[i].PlayerId, playerDatas[i].Name, i * 2);
+                }
+
+                Initialize();
+                break;
+            default:
+                break;
+        }
     }
 }
 
@@ -407,4 +433,17 @@ public class GameMessage
     public string RoomId;
     public string Action;
     public object[] Args;
+}
+
+[Serializable]
+public class PlayerData
+{
+    public int PlayerId;
+    public string Name;
+
+    public PlayerData(int playerId, string name)
+    {
+        PlayerId = playerId;
+        Name = name;
+    }
 }

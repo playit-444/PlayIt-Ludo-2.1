@@ -1,6 +1,5 @@
 *.log
 *.bc
 Ludo/Temp/UnityLockfile
-Ludo/Library/ArtifactDB
 Ludo/Temp/*
 *.lock

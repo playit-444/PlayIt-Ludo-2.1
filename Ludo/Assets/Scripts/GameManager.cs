@@ -414,18 +414,18 @@ public class GameManager : MonoBehaviour
                     try
                     {
                         if (args.Length > 3)
-                            players[i] = new Player(long.Parse(obj[0],NumberStyles.Integer, CultureInfo.InvariantCulture), obj[1], i);
+                            players[i - 1] = new Player(long.Parse(obj[0], NumberStyles.Integer, CultureInfo.InvariantCulture), obj[1], i);
                         else
-                            players[i] = new Player(long.Parse(obj[0], NumberStyles.Integer, CultureInfo.InvariantCulture), obj[1], i*2);
+                            players[i - 1] = new Player(long.Parse(obj[0], NumberStyles.Integer, CultureInfo.InvariantCulture), obj[1], i * 2);
 
                         Transform playerHUD = canvas.transform.GetChild(2);
-                        Text t = playerHUD.GetChild(1).gameObject.GetComponent<Text>();
-                        t.text = players[i].Name;
-                        t.enabled = true;
+                        Text t = playerHUD.GetChild(i - 1).GetChild(1).gameObject.GetComponent<Text>();
+                        t.text = players[i - 1].Name;
+                        t.gameObject.SetActive(true);
 
-                        if (players[i].Id == id)
+                        if (players[i - 1].Id == id)
                         {
-                            ownPlayer = players[i];
+                            ownPlayer = players[i - 1];
                             t.color = Color.green;
                         }
                         else

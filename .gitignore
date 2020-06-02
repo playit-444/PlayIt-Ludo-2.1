@@ -1,5 +1,4 @@
 *.log
 *.bc
 Ludo/Temp/UnityLockfile
-Ludo/Temp/*
 *.lock

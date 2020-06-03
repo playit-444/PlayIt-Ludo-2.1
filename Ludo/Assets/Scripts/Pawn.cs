@@ -15,7 +15,7 @@ public class Pawn : MonoBehaviour
     [SerializeField]
     private int teamId;
 
-    public int Id { get; set; }
+    public int Id { get => id; set => id = value; }
     public int Position { get => position; set => position = value; }
     public long Owner { get => owner; set => owner = value; }
     public bool OnGoalTile { get => onGoalTile; set => onGoalTile = value; }

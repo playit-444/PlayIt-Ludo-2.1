@@ -11,6 +11,7 @@ public class GameManager : MonoBehaviour
 {
     private string roomId;
     private int rollVal;
+    private bool canRoll;
 
     [DllImport("__Internal")]
     private static extern void HandleUnityMessage(string message);
@@ -78,8 +79,8 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private Camera mainCam;
 
-    private Pawn selectedPawn;
-    private long playerTurn;
+    private Pawn selectedPawn = null;
+    private long playerTurn = 0;
 
     public Player[] Players { get; set; }
 
@@ -399,6 +400,7 @@ public class GameManager : MonoBehaviour
         text.text = "JS: " + message;
 
         GameMessage msg = JsonUtility.FromJson<GameMessage>(message);
+        Debug.Log($"{msg.RoomId}-{msg.Action}->{msg.Args}");
 
         switch (msg.Action)
         {
@@ -412,7 +414,7 @@ public class GameManager : MonoBehaviour
 
                 for (int i = 0; i < args.Length - 1; i++)
                 {
-                    string[] obj = args[i+1].Split('|');
+                    string[] obj = args[i + 1].Split('|');
                     try
                     {
                         if (args.Length > 3)
@@ -450,19 +452,21 @@ public class GameManager : MonoBehaviour
 
                 UpdateRollVal();
                 break;
-            case "TURN":
+            case "NEXTTURN":
                 break;
             default:
                 break;
         }
     }
 
-    void UpdateRollVal() { 
-        
+    void UpdateRollVal()
+    {
+        canvas.transform.GetChild(3).gameObject.GetComponent<Text>().text = rollVal.ToString();
     }
 
-    void UpdateTurn() { 
-    
+    void UpdateTurn()
+    {
+
     }
 }
 

@@ -400,12 +400,12 @@ public class GameManager : MonoBehaviour
         text.text = "JS: " + message;
 
         GameMessage msg = JsonUtility.FromJson<GameMessage>(message);
-        Debug.Log($"{msg.RoomID}-{msg.Action}->{msg.Args}");
+        Debug.Log($"{msg.RoomId}-{msg.Action}->{msg.Args}");
 
         switch (msg.Action)
         {
             case "INIT":
-                roomId = msg.RoomID;
+                roomId = msg.RoomId;
                 string[] args = msg.Args.Split('\n');
 
                 players = new Player[args.Length - 1];
@@ -478,12 +478,12 @@ public class GameMessage
 {
     public GameMessage(string roomId, string action, string args)
     {
-        RoomID = roomId;
+        RoomId = roomId;
         Action = action;
         Args = args;
     }
 
-    public string RoomID;
+    public string RoomId;
     public string Action;
     public string Args;
 }
@@ -491,12 +491,12 @@ public class GameMessage
 [Serializable]
 public class PlayerData
 {
-    public int PlayerID;
+    public int PlayerId;
     public string Name;
 
     public PlayerData(int playerId, string name)
     {
-        PlayerID = playerId;
+        PlayerId = playerId;
         Name = name;
     }
 }

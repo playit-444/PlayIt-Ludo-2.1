@@ -430,7 +430,7 @@ public class GameManager : MonoBehaviour
                         if (players[i].Id == id)
                         {
                             ownPlayer = players[i];
-                            t.color = teamColours[players[i].TeamId].color;
+                            t.material = teamColours[players[i].TeamId];
                         }
                         else
                         {
@@ -458,6 +458,8 @@ public class GameManager : MonoBehaviour
                 UpdateTurn();
                 break;
             case "MOVE":
+                string[] a = msg.Args.Split('|');
+                MovePawn(int.Parse(a[0]), int.Parse(a[1]));
                 break;
             default:
                 break;
@@ -469,6 +471,7 @@ public class GameManager : MonoBehaviour
         Pawn pawn = playerPawns[pId];
         int res = (pos - pawn.Position);
         pawn.transform.position = Vector3.Lerp(pawn.transform.position, tiles[pos].transform.position, pieceMoveSpeed * res > 0 ? res : -res);
+        pawn.Position = pos;
     }
 
     void UpdateRollVal()

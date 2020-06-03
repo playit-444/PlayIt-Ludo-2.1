@@ -74,7 +74,7 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private Camera mainCam;
     [SerializeField]
-    private float[] camAngles;
+    private Transform camPoints;
 
     private Pawn selectedPawn = null;
     private long playerTurn = 0;
@@ -107,7 +107,13 @@ public class GameManager : MonoBehaviour
         SendMessageToJS(JsonUtility.ToJson(new GameMessage(string.Empty, "READY", null)));
     }
 
-    private void Update()
+    [SerializeField]
+    private float camMoveSpeed;
+
+    private bool changingTurns = false;
+    private int newTeam;
+
+    private void FixedUpdate()
     {
         if (Input.GetButtonDown("Fire1"))
         {
@@ -130,10 +136,22 @@ public class GameManager : MonoBehaviour
 
         if (Input.GetButtonUp("Fire1"))
             selectedPawn = null;
+
+        
+
+        if (changingTurns) {
+            Transform t = camPoints.transform.GetChild(newTeam);
+            mainCam.transform.position = Vector3.Lerp(mainCam.transform.position, t.position, camMoveSpeed * Time.deltaTime);
+            mainCam.transform.rotation = Quaternion.Lerp(mainCam.transform.rotation, t.rotation, camMoveSpeed * Time.deltaTime);
+
+            if (mainCam.transform.position == t.position)
+                changingTurns = false;
+        }
     }
 
     void MovePawnToGoal(int idx)
     {
+        Debug.Log("goal move func");
         Pawn pawn = playerPawns[idx];
 
         int availableSpot = 0;
@@ -247,7 +265,7 @@ public class GameManager : MonoBehaviour
                         Transform playerHUD = canvas.transform.GetChild(2);
                         playerHUD.GetChild(i).gameObject.SetActive(true);
                         TextMeshProUGUI t = playerHUD.GetChild(i).GetChild(1).gameObject.GetComponent<TextMeshProUGUI>();
-                        t.text = players[i].Name;
+                        t.SetText(players[i].Name);
 
                         Debug.Log("created player hud");
 
@@ -256,7 +274,9 @@ public class GameManager : MonoBehaviour
                             ownPlayer = players[i];
                         }
 
-                        t.color = teamColours[players[i].TeamId].color;
+                        Color c = teamColours[players[i].TeamId].color;
+                        t.color = c;
+                        t.transform.parent.GetChild(2).GetComponent<TextMeshProUGUI>().color = c;
 
                         Debug.Log("created player");
                     }
@@ -294,6 +314,11 @@ public class GameManager : MonoBehaviour
     void MovePawn(int pId, int pos)
     {
         Pawn pawn = playerPawns[pId];
+
+        if (pos == -1) {
+            //TODO:
+        }
+
         pawn.transform.GetChild(0).gameObject.SetActive(false);
         int res = pos == -1 ? 0 : (pos - pawn.Position);
         pawn.transform.position = tiles[pos].transform.GetChild(0).position;
@@ -305,7 +330,7 @@ public class GameManager : MonoBehaviour
     {
         var trans = canvas.transform.GetChild(2).GetChild(players.First(p => p.Id == playerTurn).TeamId).GetChild(2);
         trans.gameObject.SetActive(true);
-        trans.GetComponent<TextMeshProUGUI>().text = "Roll: " + rollVal.ToString();
+        trans.GetComponent<TextMeshProUGUI>().text = rollVal.ToString();
     }
 
     void UpdateTurn(long newTurn)
@@ -313,8 +338,15 @@ public class GameManager : MonoBehaviour
         if (playerTurn == 0)
             playerTurn = newTurn;
 
-        canvas.transform.GetChild(2).GetChild(players.First(p => p.Id == playerTurn).TeamId).GetChild(2).gameObject.SetActive(false);
+        int teamId = players.First(p => p.Id == playerTurn).TeamId;
+        canvas.transform.GetChild(2).GetChild(teamId).GetChild(2).gameObject.SetActive(false);
         playerTurn = newTurn;
+
+        changingTurns = true;
+        if (teamId >= players.Length)
+            newTeam = 0;
+        else
+            newTeam = teamId++;
     }
 
     private class MoveParams

@@ -256,6 +256,7 @@ public class GameManager : MonoBehaviour
                         Debug.Log(players[i].Id + "|" + players[i].Name);
 
                         Transform playerHUD = canvas.transform.GetChild(2);
+                        playerHUD.GetChild(i).gameObject.SetActive(true);
                         TextMesh t = playerHUD.GetChild(i).GetChild(1).gameObject.GetComponent<TextMesh>();
                         t.gameObject.SetActive(true);
                         t.text = players[i].Name;
@@ -308,12 +309,8 @@ public class GameManager : MonoBehaviour
         Pawn pawn = playerPawns[pId];
         pawn.transform.GetChild(0).gameObject.SetActive(false);
         int res = pos == -1 ? 0 : (pos - pawn.Position);
-        StartCoroutine(MoveOverTime(new MoveParams(pawn.transform, pawn.transform.position, tiles[pos].transform.GetChild(0).position, pieceMoveSpeed * (pos - playerPawns[pId].Position))));
-        pawn.transform.position =
-            Vector3.Lerp(
-                pawn.transform.position,
-                tiles[pos].transform.GetChild(0).position,
-                pieceMoveSpeed * res > 0 ? res : -res);
+        //StartCoroutine(MoveOverTime(new MoveParams(pawn.transform, pawn.transform.position, tiles[pos].transform.GetChild(0).position, pieceMoveSpeed * (pos - playerPawns[pId].Position))));
+        pawn.transform.position = tiles[pos].transform.GetChild(0).position;
 
         pawn.Position = pos;
     }

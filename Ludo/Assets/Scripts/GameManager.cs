@@ -1,5 +1,6 @@
 ﻿using Assets.Scripts;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -65,8 +66,8 @@ public class GameManager : MonoBehaviour
     private IDictionary<long, int> playerGoalEntrances;
     [SerializeField]
     private GameObject[] tiles;
-    [SerializeField]
-    private GameObject[] goalRoadTiles;
+    /*[SerializeField]
+    private GameObject[] goalRoadTiles;*/
     [SerializeField]
     private GameObject[] goals;
     [SerializeField]
@@ -77,6 +78,8 @@ public class GameManager : MonoBehaviour
     private Pawn[] playerPawns;
     [SerializeField]
     private Camera mainCam;
+    [SerializeField]
+    private float[] camAngles;
 
     private Pawn selectedPawn = null;
     private long playerTurn = 0;
@@ -85,7 +88,7 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-        WebGLInput.captureAllKeyboardInput = false;
+        //WebGLInput.captureAllKeyboardInput = false;
 
         canvas.transform.GetChild(0).gameObject.SetActive(false);
 
@@ -102,12 +105,11 @@ public class GameManager : MonoBehaviour
             goals[i].GetComponent<MeshRenderer>().material = teamColours[i];
 
             //assign colors for tiles if not the usualy accent colour
-            tiles[GetHomeEntranceIndex(i)].GetComponent<MeshRenderer>().material = teamColours[i];
+            tiles[(i * 13) + 2].GetComponent<MeshRenderer>().material = teamColours[i];
 
-            //assign goal tile colour
             for (int j = 0; j < 5; j++)
             {
-                goalRoadTiles[(i * 5) + j].GetComponent<MeshRenderer>().material = teamColours[i];
+                tiles[52 + j + (i * 6)].GetComponent<MeshRenderer>().material = teamColours[i];
             }
         }
 
@@ -139,175 +141,9 @@ public class GameManager : MonoBehaviour
             selectedPawn = null;
     }
 
-    /*void MovePawn(int idx, int moves)
-    {
-        Pawn pawn = playerPawns[idx];
-        int movesLeft = moves;
-        long ownerGoalIndex = playerGoalEntrances[pawn.Owner];
-
-        int diff = tiles.Length - pawn.Position;
-
-        do
-        {
-            for (int i = pawn.Position; i < tiles.Length; i++)
-            {
-                //if on the goal path
-                if (pawn.OnGoalTile && pawn.Position != 6)
-                {
-                    int atGoal = (pawn.Position + movesLeft);
-                    if (atGoal > 5)
-                        atGoal = (5 - (atGoal - 5));
-
-                    if (atGoal == 0)
-                    {
-                        MovePawnToGoal(idx);
-                        GameObject newTile1 = null;
-                        for (int k = 0; k < 4; k++)
-                        {
-                            if (k == pawn.TeamId)
-                            {
-                                newTile1 = goals[pawn.TeamId];
-                                break;
-                            }
-                        }
-
-                        if (newTile1 == null)
-                            Debug.Log("oh no");
-
-                        int availableSpot = 0;
-
-                        for (int j = 0; j < newTile1.transform.childCount; j++)
-                        {
-                            if (!newTile1.transform.GetChild(j).GetChild(0))
-                            {
-                                availableSpot = j;
-                                break;
-                            }
-                        }
-
-                        pawn.Position = 6;
-                        pawn.transform.position =
-                            Vector3.Lerp(
-                                pawn.transform.position,
-                                newTile1.transform.GetChild(availableSpot).position,
-                                pieceMoveSpeed * movesLeft);
-                        movesLeft = 0;
-                        break;
-                    }
-                    else if (atGoal < 5)
-                    {
-                        pawn.Position = atGoal;
-                        pawn.transform.position =
-                            Vector3.Lerp(
-                                pawn.transform.position,
-                                goalRoadTiles[(pawn.TeamId * 4) + atGoal].transform.position,
-                                pieceMoveSpeed * movesLeft);
-                    }
-
-                    //move brick
-                    break;
-                }
-
-                //if goal entrance is being hit
-                if (i == ownerGoalIndex && movesLeft > 0)
-                {
-                    if (movesLeft == 6)
-                    {
-                        MovePawnToGoal(idx);
-                    }
-                    else
-                    {
-                        GameObject newTile2 = goalRoadTiles[(pawn.TeamId * 4) + movesLeft];
-                        pawn.Position = newTile2.GetComponent<Tile>().Index;
-                        pawn.transform.position = Vector3.Lerp(pawn.transform.position, newTile2.transform.position, pieceMoveSpeed * movesLeft);
-                    }
-
-                    movesLeft = 0;
-                    break;
-                }
-
-                //standard move
-                GameObject newTile = tiles[pawn.Position + 1];
-                pawn.transform.position = Vector3.Lerp(pawn.transform.position, newTile.transform.position, pieceMoveSpeed);
-                pawn.Position++;
-
-                movesLeft--;
-            }
-
-            //if the pawn is on the last tile of the 
-            if (pawn.Position == tiles.Length - 1)
-            {
-                pawn.Position = 0;
-                GameObject newTile = tiles[0];
-                pawn.transform.position = Vector3.Lerp(pawn.transform.position, newTile.transform.position, pieceMoveSpeed);
-
-                movesLeft--;
-            }
-
-        } while (movesLeft > 0);
-
-        if (pawn.OnGoalTile)
-            return;
-
-        IEnumerable<Pawn> enemyPawns =
-            playerPawns.Where(
-                p => p.TeamId != pawn.TeamId &&
-                p.Position == pawn.Position);
-
-        if (enemyPawns.Count() > 0)
-        {
-            if (enemyPawns.Count() > 2 || (tiles[pawn.Position].GetComponent<Tile>().Type & (int)TileType.GLOBE) > 0)
-                MovePawnToHome(pawn.Id);
-            else
-                MovePawnToHome(enemyPawns.First().Id);
-
-            return;
-        }
-
-        IEnumerable<Pawn> teamPawns =
-            playerPawns.Where(
-                p => p.TeamId == pawn.TeamId &&
-                p.Position == pawn.Position);
-
-        if (teamPawns.Count() > 0 || (tiles[pawn.Position].GetComponent<Tile>().Type & (int)TileType.GLOBE) > 0)
-        {
-            pawn.transform.GetChild(0).gameObject.SetActive(true);
-
-            return;
-        }
-
-        pawn.transform.GetChild(0).gameObject.SetActive(false);
-    }
-
-    void MovePawnToHome(int idx)
-    {
-        Pawn pawn = playerPawns[idx];
-
-        pawn.Position = -1;
-
-        Transform obj = homesObject.transform.GetChild(pawn.TeamId + 4);
-        Transform newPos = null;
-        for (int i = 0; i < obj.childCount; i++)
-        {
-            if (obj.GetChild(i).GetChild(0).childCount == 1)
-            {
-                newPos = obj.GetChild(i).GetChild(0).GetChild(0);
-            }
-        }
-
-        if (newPos == null)
-            return;
-
-        //TODO: explosion
-
-        Vector3.Lerp(pawn.transform.position, newPos.position, pieceMoveSpeed * 4);
-        pawn.transform.SetParent(newPos);
-    }*/
-
     void MovePawnToGoal(int idx)
     {
         Pawn pawn = playerPawns[idx];
-        pawn.Position = 6;
 
         int availableSpot = 0;
 
@@ -321,7 +157,6 @@ public class GameManager : MonoBehaviour
             }
         }
 
-        pawn.Position = 6;
         pawn.transform.position =
             Vector3.Lerp(
                 pawn.transform.position,
@@ -386,9 +221,6 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    int GetHomeEntranceIndex(int teamId) => (teamId * 13) + 2;
-    int GetGoalEntranceIndex(int teamId) => teamId * 13;
-
     public void SendMessageToJS(string msg)
     {
         text.text = "TRY U3D: " + msg;
@@ -426,15 +258,14 @@ public class GameManager : MonoBehaviour
                         Debug.Log(players[i].Id + "|" + players[i].Name);
 
                         Transform playerHUD = canvas.transform.GetChild(2);
-                        Text t = playerHUD.GetChild(i).GetChild(1).gameObject.GetComponent<Text>();
+                        TextMesh t = playerHUD.GetChild(i).GetChild(1).gameObject.GetComponent<TextMesh>();
                         t.gameObject.SetActive(true);
                         t.text = players[i].Name;
 
                         if (players[i].Id == id)
                         {
                             ownPlayer = players[i];
-                            //t.color = Color.green;
-                            t.material.SetColor("teamCol", teamColours[players[i].TeamId].color);
+                            t.color = teamColours[players[i].TeamId].color;
                         }
                         else
                         {
@@ -457,15 +288,17 @@ public class GameManager : MonoBehaviour
                 UpdateRollVal();
                 break;
             case "NEXTTURN":
-                playerTurn = long.Parse(msg.Args);
-
-                UpdateTurn();
+                UpdateTurn(long.Parse(msg.Args));
                 break;
             case "MOVE":
                 string[] a = msg.Args.Split('|');
                 Debug.Log($"{a[0]} moved to pos {a[1]}");
                 MovePawn(int.Parse(a[0]), int.Parse(a[1]));
                 Debug.Log("pawn moved!");
+                break;
+            case "GOAL":
+                Debug.Log("moved pawn(" + int.Parse(msg.Args) + ") to spawn");
+                MovePawnToGoal(int.Parse(msg.Args));
                 break;
             default:
                 break;
@@ -475,7 +308,9 @@ public class GameManager : MonoBehaviour
     void MovePawn(int pId, int pos)
     {
         Pawn pawn = playerPawns[pId];
+        pawn.transform.GetChild(0).gameObject.SetActive(false);
         int res = pos == -1 ? 0 : (pos - pawn.Position);
+        StartCoroutine(MoveOverTime(new MoveParams(pawn.transform, pawn.transform.position, tiles[pos].transform.GetChild(0).position, pieceMoveSpeed * (pos - playerPawns[pId].Position))));
         pawn.transform.position =
             Vector3.Lerp(
                 pawn.transform.position,
@@ -487,12 +322,51 @@ public class GameManager : MonoBehaviour
 
     void UpdateRollVal()
     {
-        canvas.transform.GetChild(3).gameObject.GetComponent<Text>().text = "Roll: " + rollVal.ToString();
+        var trans = canvas.transform.GetChild(2).GetChild(players.First(p => p.Id == playerTurn).TeamId).GetChild(2);
+        trans.GetComponent<TextMesh>().text = "Roll: " + rollVal.ToString();
+        trans.gameObject.SetActive(true);
+        //canvas.transform.GetChild(3).gameObject.GetComponent<Text>().text = "Roll: " + rollVal.ToString();
     }
 
-    void UpdateTurn()
+    void UpdateTurn(long newTurn)
     {
+        canvas.transform.GetChild(2).GetChild(players.First(p => p.Id == playerTurn).TeamId).GetChild(2).gameObject.SetActive(false);
+        playerTurn = newTurn;
+    }
 
+    private class MoveParams
+    {
+        public Transform trans;
+        public Vector3 from;
+        public Vector3 to;
+        public float time;
+
+        public MoveParams(Transform trans, Vector3 from, Vector3 to, float time)
+        {
+            this.trans = trans;
+            this.from = from;
+            this.to = to;
+            this.time = time;
+        }
+    }
+
+    IEnumerator MoveOverTime(MoveParams param)
+    {
+        if (param.time > 0f)
+        {
+            float startTime = Time.time;
+            float endTime = Time.time + param.time;
+            transform.position = param.from;
+            WaitForSeconds delay = new WaitForSeconds(0.05f);
+            while (Time.time < endTime)
+            {
+
+                transform.position = Vector3.Lerp(param.from, param.to, ((Time.time - startTime) * pieceMoveSpeed) / (Vector3.Distance(param.to, param.from)));
+                yield return delay;
+            }
+        }
+
+        yield return null;
     }
 }
 

@@ -156,18 +156,20 @@ public class GameManager : MonoBehaviour
 
         int availableSpot = 0;
 
-        GameObject goal = goals[pawn.TeamId];
+        GameObject goal = tiles[52+(pawn.TeamId*6)];
         for (int j = 0; j < goal.transform.childCount; j++)
         {
             if (!goal.transform.GetChild(j).GetChild(0))
             {
                 availableSpot = j;
+                Debug.Log("found goal spot");
                 break;
             }
         }
 
         pawn.transform.position = goal.transform.GetChild(availableSpot).position;
         pawn.transform.SetParent(goal.transform.GetChild(availableSpot).transform);
+        Debug.Log("moved pawn to goal success");
     }
 
     [SerializeField]
@@ -298,6 +300,8 @@ public class GameManager : MonoBehaviour
                 break;
             case "MOVE":
                 string[] a = msg.Args.Split('|');
+                if (int.Parse(a[1]) == -2)
+                    break;
                 Debug.Log($"{a[0]} moved to pos {a[1]}");
                 MovePawn(int.Parse(a[0]), int.Parse(a[1]));
                 Debug.Log("pawn moved!");

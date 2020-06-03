@@ -81,8 +81,10 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-        WebGLInput.captureAllKeyboardInput = false;
-
+        //WebGLInput.captureAllKeyboardInput = false;
+        var trans = canvas.transform.GetChild(2).GetChild(players.First(p => p.Id == playerTurn).TeamId).GetChild(2);
+        trans.gameObject.SetActive(true);
+        trans.GetComponent<TextMeshProUGUI>().SetText(rollVal.ToString());
         for (int i = 0; i < 4; i++)
         {
             //assing homes and materials for said homes
@@ -156,10 +158,10 @@ public class GameManager : MonoBehaviour
 
         int availableSpot = 0;
 
-        GameObject goal = tiles[52+(pawn.TeamId*6)];
-        for (int j = 0; j < goal.transform.childCount; j++)
+        GameObject goal = tiles[58+(pawn.TeamId*6)];
+        for (int j = 0; j < 4; j++)
         {
-            if (!goal.transform.GetChild(j).GetChild(0))
+            if (!(goal.transform.GetChild(j).childCount > 0))
             {
                 availableSpot = j;
                 Debug.Log("found goal spot");
@@ -334,7 +336,7 @@ public class GameManager : MonoBehaviour
     {
         var trans = canvas.transform.GetChild(2).GetChild(players.First(p => p.Id == playerTurn).TeamId).GetChild(2);
         trans.gameObject.SetActive(true);
-        trans.GetComponent<TextMeshProUGUI>().text = rollVal.ToString();
+        trans.GetComponent<TextMeshProUGUI>().SetText(rollVal.ToString());
     }
 
     void UpdateTurn(long newTurn)

@@ -84,7 +84,7 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-        //WebGLInput.captureAllKeyboardInput = false;
+        WebGLInput.captureAllKeyboardInput = false;
 
         canvas.transform.GetChild(0).gameObject.SetActive(false);
 
@@ -427,7 +427,7 @@ public class GameManager : MonoBehaviour
                         if (players[i - 1].Id == id)
                         {
                             ownPlayer = players[i - 1];
-                            t.color = Color.green;
+                            t.color = teamColours[players[i - 1].TeamId].color;
                         }
                         else
                         {

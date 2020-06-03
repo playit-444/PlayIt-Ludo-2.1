@@ -11,7 +11,6 @@ public class GameManager : MonoBehaviour
 {
     private string roomId;
     private int rollVal;
-    private bool canRoll;
 
     [DllImport("__Internal")]
     private static extern void HandleUnityMessage(string message);
@@ -131,9 +130,7 @@ public class GameManager : MonoBehaviour
                 Pawn p = obj.GetComponent<Pawn>();
                 if (p != null)
                 {
-                    Debug.Log("selected " + p.name);
-                    selectedPawn = p;
-                    SelectPawn();
+                    SelectPawn(p);
                 }
             }
         }
@@ -365,13 +362,15 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    void SelectPawn()
+    void SelectPawn(Pawn pawn)
     {
+        selectedPawn = pawn;
+        Debug.Log("trying to select " + selectedPawn.name);
         if (selectedPawn != null &&
-            ownPlayer != null &&
             selectedPawn.Owner == ownPlayer.Id &&
            playerTurn == ownPlayer.Id)
         {
+            Debug.Log("selected " + selectedPawn.name);
             var json = new GameMessage(roomId, "MOVE", selectedPawn.Id.ToString());
             SendMessageToJS(JsonUtility.ToJson(json));
         }
@@ -424,6 +423,8 @@ public class GameManager : MonoBehaviour
                         else
                             players[i] = new Player(long.Parse(obj[0], NumberStyles.Integer, CultureInfo.InvariantCulture), obj[1], (i) * 2);
 
+                        Debug.Log(players[i].Id + "|" + players[i].Name);
+
                         Transform playerHUD = canvas.transform.GetChild(2);
                         Text t = playerHUD.GetChild(i).GetChild(1).gameObject.GetComponent<Text>();
                         t.text = players[i].Name;
@@ -432,7 +433,7 @@ public class GameManager : MonoBehaviour
                         if (players[i].Id == id)
                         {
                             ownPlayer = players[i];
-                            t.material.color = teamColours[players[i].TeamId].color;
+                            t.color = teamColours[players[i].TeamId].color;
                         }
                         else
                         {
@@ -474,7 +475,12 @@ public class GameManager : MonoBehaviour
     {
         Pawn pawn = playerPawns[pId];
         int res = pos == -1 ? 0 : (pos - pawn.Position);
-        pawn.transform.position = Vector3.Lerp(pawn.transform.position, tiles[pos].transform.position, pieceMoveSpeed * res > 0 ? res : -res);
+        pawn.transform.position =
+            Vector3.Lerp(
+                pawn.transform.position,
+                tiles[pos].transform.GetChild(0).position,
+                pieceMoveSpeed * res > 0 ? res : -res);
+
         pawn.Position = pos;
     }
 

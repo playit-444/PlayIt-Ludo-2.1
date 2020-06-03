@@ -409,25 +409,25 @@ public class GameManager : MonoBehaviour
 
                 long.TryParse(args[0], NumberStyles.Integer, CultureInfo.InvariantCulture, out long id);
 
-                for (int i = 1; i < args.Length; i++)
+                for (int i = 0; i < args.Length - 1; i++)
                 {
                     string[] obj = args[i].Split('|');
                     try
                     {
                         if (args.Length > 3)
-                            players[i - 1] = new Player(long.Parse(obj[0], NumberStyles.Integer, CultureInfo.InvariantCulture), obj[1], i);
+                            players[i] = new Player(long.Parse(obj[0], NumberStyles.Integer, CultureInfo.InvariantCulture), obj[1], i);
                         else
-                            players[i - 1] = new Player(long.Parse(obj[0], NumberStyles.Integer, CultureInfo.InvariantCulture), obj[1], i * 2);
+                            players[i] = new Player(long.Parse(obj[0], NumberStyles.Integer, CultureInfo.InvariantCulture), obj[1], (i) * 2);
 
                         Transform playerHUD = canvas.transform.GetChild(2);
                         Text t = playerHUD.GetChild(i - 1).GetChild(1).gameObject.GetComponent<Text>();
                         t.text = players[i - 1].Name;
                         t.gameObject.SetActive(true);
 
-                        if (players[i - 1].Id == id)
+                        if (players[i].Id == id)
                         {
-                            ownPlayer = players[i - 1];
-                            t.color = teamColours[players[i - 1].TeamId].color;
+                            ownPlayer = players[i];
+                            t.color = teamColours[players[i].TeamId].color;
                         }
                         else
                         {

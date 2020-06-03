@@ -365,7 +365,7 @@ public class GameManager : MonoBehaviour
     void SelectPawn(Pawn pawn)
     {
         selectedPawn = pawn;
-        Debug.Log("trying to select " + selectedPawn.name);
+        Debug.Log($"trying to select {selectedPawn.name}-{selectedPawn.Owner} with owner: {ownPlayer.Id}");
         if (selectedPawn != null &&
             selectedPawn.Owner == ownPlayer.Id &&
            playerTurn == ownPlayer.Id)
@@ -433,7 +433,7 @@ public class GameManager : MonoBehaviour
                         if (players[i].Id == id)
                         {
                             ownPlayer = players[i];
-                            t.color = teamColours[players[i].TeamId].color;
+                            t.material.SetColor("teamCol", teamColours[players[i].TeamId].color);
                         }
                         else
                         {

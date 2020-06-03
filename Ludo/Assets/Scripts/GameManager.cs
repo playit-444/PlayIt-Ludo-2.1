@@ -84,8 +84,6 @@ public class GameManager : MonoBehaviour
     private Pawn selectedPawn = null;
     private long playerTurn = 0;
 
-    public Player[] Players { get; set; }
-
     void Start()
     {
         //WebGLInput.captureAllKeyboardInput = false;

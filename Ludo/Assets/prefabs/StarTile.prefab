@@ -29,7 +29,7 @@ Transform:
   m_LocalScale: {x: 0.13840829, y: 0.13840827, z: 2.5000002}
   m_Children: []
   m_Father: {fileID: 6493533929699453338}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
 --- !u!212 &2307086221102664911
 SpriteRenderer:
@@ -88,10 +88,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 7500760160094494719, guid: 82fc0f2b6a36fc5409cdd488488d0e68,
+    - target: {fileID: 3418002009165525802, guid: 82fc0f2b6a36fc5409cdd488488d0e68,
         type: 3}
-      propertyPath: m_Name
-      value: Tile
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7500760160094494716, guid: 82fc0f2b6a36fc5409cdd488488d0e68,
         type: 3}
@@ -147,6 +147,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7500760160094494719, guid: 82fc0f2b6a36fc5409cdd488488d0e68,
+        type: 3}
+      propertyPath: m_Name
+      value: StarTile
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 82fc0f2b6a36fc5409cdd488488d0e68, type: 3}

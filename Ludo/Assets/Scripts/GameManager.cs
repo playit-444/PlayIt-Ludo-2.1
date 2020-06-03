@@ -81,9 +81,7 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-        //WebGLInput.captureAllKeyboardInput = false;
-
-        canvas.transform.GetChild(2).GetChild(0).GetChild(1).gameObject.GetComponent<TextMeshProUGUI>().text = "ok.";
+        WebGLInput.captureAllKeyboardInput = false;
 
         for (int i = 0; i < 4; i++)
         {

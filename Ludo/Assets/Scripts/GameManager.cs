@@ -433,8 +433,8 @@ public class GameManager : MonoBehaviour
                         if (players[i].Id == id)
                         {
                             ownPlayer = players[i];
-                            t.color = Color.green;
-                            //t.material.SetColor("teamCol", teamColours[players[i].TeamId].color);
+                            //t.color = Color.green;
+                            t.material.SetColor("teamCol", teamColours[players[i].TeamId].color);
                         }
                         else
                         {

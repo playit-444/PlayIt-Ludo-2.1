@@ -142,7 +142,7 @@ public class GameManager : MonoBehaviour
             selectedPawn = null;
     }
 
-    void MovePawn(int idx, int moves)
+    /*void MovePawn(int idx, int moves)
     {
         Pawn pawn = playerPawns[idx];
         int movesLeft = moves;
@@ -305,7 +305,7 @@ public class GameManager : MonoBehaviour
 
         Vector3.Lerp(pawn.transform.position, newPos.position, pieceMoveSpeed * 4);
         pawn.transform.SetParent(newPos);
-    }
+    }*/
 
     void MovePawnToGoal(int idx)
     {
@@ -457,9 +457,18 @@ public class GameManager : MonoBehaviour
 
                 UpdateTurn();
                 break;
+            case "MOVE":
+                break;
             default:
                 break;
         }
+    }
+
+    void MovePawn(int pId, int pos)
+    {
+        Pawn pawn = playerPawns[pId];
+        int res = (pos - pawn.Position);
+        pawn.transform.position = Vector3.Lerp(pawn.transform.position, tiles[pos].transform.position, pieceMoveSpeed * res > 0 ? res : -res);
     }
 
     void UpdateRollVal()

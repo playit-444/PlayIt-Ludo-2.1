@@ -258,18 +258,16 @@ public class GameManager : MonoBehaviour
                         Transform playerHUD = canvas.transform.GetChild(2);
                         playerHUD.GetChild(i).gameObject.SetActive(true);
                         TextMesh t = playerHUD.GetChild(i).GetChild(1).gameObject.GetComponent<TextMesh>();
-                        t.gameObject.SetActive(true);
                         t.text = players[i].Name;
+
+                        Debug.Log("created player hud");
 
                         if (players[i].Id == id)
                         {
                             ownPlayer = players[i];
-                            t.color = teamColours[players[i].TeamId].color;
                         }
-                        else
-                        {
-                            t.color = Color.black;
-                        }
+
+                        t.color = teamColours[players[i].TeamId].color;
 
                         Debug.Log("created player");
                     }

@@ -357,6 +357,8 @@ public class GameManager : MonoBehaviour
                 p.Position = -1;
                 p.Owner = players[i].Id;
                 p.TeamId = i;
+
+                playerPawns[p.Id] = p;
             }
 
             Debug.Log("creates pawns for player: " + players[i].Name);
@@ -430,7 +432,7 @@ public class GameManager : MonoBehaviour
                         if (players[i].Id == id)
                         {
                             ownPlayer = players[i];
-                            t.material = teamColours[players[i].TeamId];
+                            t.material.color = teamColours[players[i].TeamId].color;
                         }
                         else
                         {
@@ -459,7 +461,9 @@ public class GameManager : MonoBehaviour
                 break;
             case "MOVE":
                 string[] a = msg.Args.Split('|');
+                Debug.Log($"{a[0]} moved to pos {a[1]}");
                 MovePawn(int.Parse(a[0]), int.Parse(a[1]));
+                Debug.Log("pawn moved!");
                 break;
             default:
                 break;
@@ -469,14 +473,14 @@ public class GameManager : MonoBehaviour
     void MovePawn(int pId, int pos)
     {
         Pawn pawn = playerPawns[pId];
-        int res = (pos - pawn.Position);
+        int res = pos == -1 ? 0 : (pos - pawn.Position);
         pawn.transform.position = Vector3.Lerp(pawn.transform.position, tiles[pos].transform.position, pieceMoveSpeed * res > 0 ? res : -res);
         pawn.Position = pos;
     }
 
     void UpdateRollVal()
     {
-        canvas.transform.GetChild(3).gameObject.GetComponent<Text>().text = rollVal.ToString();
+        canvas.transform.GetChild(3).gameObject.GetComponent<Text>().text = "Roll: " + rollVal.ToString();
     }
 
     void UpdateTurn()

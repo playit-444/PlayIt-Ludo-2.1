@@ -453,6 +453,9 @@ public class GameManager : MonoBehaviour
                 UpdateRollVal();
                 break;
             case "NEXTTURN":
+                playerTurn = long.Parse(msg.Args);
+
+                UpdateTurn();
                 break;
             default:
                 break;

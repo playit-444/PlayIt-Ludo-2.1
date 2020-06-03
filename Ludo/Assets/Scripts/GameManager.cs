@@ -349,7 +349,7 @@ public class GameManager : MonoBehaviour
             {
                 GameObject pawn = Instantiate(pawnPrefab, home.GetChild(j).GetChild(0).position, Quaternion.identity);
                 pawn.GetComponent<MeshRenderer>().material = teamColours[players[i].TeamId];
-                Pawn p = pawn.AddComponent<Pawn>();
+                Pawn p = pawn.GetComponent<Pawn>();
                 p.Id = (i * 4) + j;
                 p.Position = -1;
                 p.Owner = players[i].Id;
@@ -427,13 +427,14 @@ public class GameManager : MonoBehaviour
 
                         Transform playerHUD = canvas.transform.GetChild(2);
                         Text t = playerHUD.GetChild(i).GetChild(1).gameObject.GetComponent<Text>();
-                        t.text = players[i].Name;
                         t.gameObject.SetActive(true);
+                        t.text = players[i].Name;
 
                         if (players[i].Id == id)
                         {
                             ownPlayer = players[i];
-                            t.material.SetColor("teamCol", teamColours[players[i].TeamId].color);
+                            t.color = Color.green;
+                            //t.material.SetColor("teamCol", teamColours[players[i].TeamId].color);
                         }
                         else
                         {

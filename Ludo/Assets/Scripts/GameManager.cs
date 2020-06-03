@@ -62,13 +62,7 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private GameObject homesObject;
     [SerializeField]
-    private IDictionary<long, int> playerHomeEntrances;
-    [SerializeField]
-    private IDictionary<long, int> playerGoalEntrances;
-    [SerializeField]
     private GameObject[] tiles;
-    /*[SerializeField]
-    private GameObject[] goalRoadTiles;*/
     [SerializeField]
     private GameObject[] goals;
     [SerializeField]
@@ -88,6 +82,8 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         //WebGLInput.captureAllKeyboardInput = false;
+
+        canvas.transform.GetChild(2).GetChild(0).GetChild(1).gameObject.GetComponent<TextMeshProUGUI>().text = "ok.";
 
         for (int i = 0; i < 4; i++)
         {
@@ -154,11 +150,7 @@ public class GameManager : MonoBehaviour
             }
         }
 
-        pawn.transform.position =
-            Vector3.Lerp(
-                pawn.transform.position,
-                goal.transform.GetChild(availableSpot).position,
-                pieceMoveSpeed);
+        pawn.transform.position = goal.transform.GetChild(availableSpot).position;
         pawn.transform.SetParent(goal.transform.GetChild(availableSpot).transform);
     }
 
@@ -306,7 +298,6 @@ public class GameManager : MonoBehaviour
         Pawn pawn = playerPawns[pId];
         pawn.transform.GetChild(0).gameObject.SetActive(false);
         int res = pos == -1 ? 0 : (pos - pawn.Position);
-        //StartCoroutine(MoveOverTime(new MoveParams(pawn.transform, pawn.transform.position, tiles[pos].transform.GetChild(0).position, pieceMoveSpeed * (pos - playerPawns[pId].Position))));
         pawn.transform.position = tiles[pos].transform.GetChild(0).position;
 
         pawn.Position = pos;
@@ -317,11 +308,13 @@ public class GameManager : MonoBehaviour
         var trans = canvas.transform.GetChild(2).GetChild(players.First(p => p.Id == playerTurn).TeamId).GetChild(2);
         trans.gameObject.SetActive(true);
         trans.GetComponent<TextMeshProUGUI>().text = "Roll: " + rollVal.ToString();
-        //canvas.transform.GetChild(3).gameObject.GetComponent<Text>().text = "Roll: " + rollVal.ToString();
     }
 
     void UpdateTurn(long newTurn)
     {
+        if (playerTurn == 0)
+            playerTurn = newTurn;
+
         canvas.transform.GetChild(2).GetChild(players.First(p => p.Id == playerTurn).TeamId).GetChild(2).gameObject.SetActive(false);
         playerTurn = newTurn;
     }
@@ -340,25 +333,6 @@ public class GameManager : MonoBehaviour
             this.to = to;
             this.time = time;
         }
-    }
-
-    IEnumerator MoveOverTime(MoveParams param)
-    {
-        if (param.time > 0f)
-        {
-            float startTime = Time.time;
-            float endTime = Time.time + param.time;
-            transform.position = param.from;
-            WaitForSeconds delay = new WaitForSeconds(0.05f);
-            while (Time.time < endTime)
-            {
-
-                transform.position = Vector3.Lerp(param.from, param.to, ((Time.time - startTime) * pieceMoveSpeed) / (Vector3.Distance(param.to, param.from)));
-                yield return delay;
-            }
-        }
-
-        yield return null;
     }
 }
 

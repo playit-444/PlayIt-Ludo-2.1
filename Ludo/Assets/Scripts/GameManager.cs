@@ -10,6 +10,7 @@ using UnityEngine.UI;
 public class GameManager : MonoBehaviour
 {
     private string roomId;
+    private int rollVal;
 
     [DllImport("__Internal")]
     private static extern void HandleUnityMessage(string message);
@@ -363,24 +364,24 @@ public class GameManager : MonoBehaviour
 
     void SelectPawn()
     {
-        //if (selectedPawn != null &&
-        //    ownPlayer != null &&
-        //    selectedPawn.Owner == ownPlayer.Id &&
-        //    playerTurn == ownPlayer.Id)
-        //{
-        var json = new GameMessage(roomId, "MOVE", selectedPawn.Id.ToString());
-        SendMessageToJS(JsonUtility.ToJson(json));
-        //}
+        if (selectedPawn != null &&
+            ownPlayer != null &&
+            selectedPawn.Owner == ownPlayer.Id &&
+           playerTurn == ownPlayer.Id)
+        {
+            var json = new GameMessage(roomId, "MOVE", selectedPawn.Id.ToString());
+            SendMessageToJS(JsonUtility.ToJson(json));
+        }
     }
 
     public void Roll()
     {
-        //if (playerTurn == ownPlayer.Id)
-        //{
-        var json = new GameMessage(roomId, "ROLL", null);
+        if (playerTurn == ownPlayer.Id)
+        {
+            var json = new GameMessage(roomId, "ROLL", null);
 
-        SendMessageToJS(JsonUtility.ToJson(json));
-        //}
+            SendMessageToJS(JsonUtility.ToJson(json));
+        }
     }
 
     int GetHomeEntranceIndex(int teamId) => (teamId * 13) + 2;
@@ -411,7 +412,7 @@ public class GameManager : MonoBehaviour
 
                 for (int i = 0; i < args.Length - 1; i++)
                 {
-                    string[] obj = args[i].Split('|');
+                    string[] obj = args[i+1].Split('|');
                     try
                     {
                         if (args.Length > 3)
@@ -420,8 +421,8 @@ public class GameManager : MonoBehaviour
                             players[i] = new Player(long.Parse(obj[0], NumberStyles.Integer, CultureInfo.InvariantCulture), obj[1], (i) * 2);
 
                         Transform playerHUD = canvas.transform.GetChild(2);
-                        Text t = playerHUD.GetChild(i - 1).GetChild(1).gameObject.GetComponent<Text>();
-                        t.text = players[i - 1].Name;
+                        Text t = playerHUD.GetChild(i).GetChild(1).gameObject.GetComponent<Text>();
+                        t.text = players[i].Name;
                         t.gameObject.SetActive(true);
 
                         if (players[i].Id == id)
@@ -444,9 +445,24 @@ public class GameManager : MonoBehaviour
 
                 Initialize();
                 break;
+            case "ROLL":
+                rollVal = int.Parse(msg.Args);
+
+                UpdateRollVal();
+                break;
+            case "TURN":
+                break;
             default:
                 break;
         }
+    }
+
+    void UpdateRollVal() { 
+        
+    }
+
+    void UpdateTurn() { 
+    
     }
 }
 

@@ -84,7 +84,7 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-        WebGLInput.captureAllKeyboardInput = false;
+        //WebGLInput.captureAllKeyboardInput = false;
 
         canvas.transform.GetChild(0).gameObject.SetActive(false);
 
@@ -286,7 +286,7 @@ public class GameManager : MonoBehaviour
 
         pawn.Position = -1;
 
-        Transform obj = homesObject.transform.GetChild(pawn.TeamId);
+        Transform obj = homesObject.transform.GetChild(pawn.TeamId + 4);
         Transform newPos = null;
         for (int i = 0; i < obj.childCount; i++)
         {
@@ -344,11 +344,11 @@ public class GameManager : MonoBehaviour
 
         for (int i = 0; i < players.Length; i++)
         {
-            GameObject home = homesObject.transform.GetChild(players[i].TeamId).gameObject;
+            Transform home = homesObject.transform.GetChild(players[i].TeamId + 4);
 
             for (int j = 0; j < 4; j++)
             {
-                GameObject pawn = Instantiate(pawnPrefab, home.transform.GetChild(j).GetChild(0).position, Quaternion.identity);
+                GameObject pawn = Instantiate(pawnPrefab, home.GetChild(j).GetChild(0).position, Quaternion.identity);
                 pawn.GetComponent<MeshRenderer>().material = teamColours[players[i].TeamId];
                 Pawn p = pawn.AddComponent<Pawn>();
                 p.Id = (i * 4) + j;
@@ -368,7 +368,7 @@ public class GameManager : MonoBehaviour
         //    selectedPawn.Owner == ownPlayer.Id &&
         //    playerTurn == ownPlayer.Id)
         //{
-        var json = new GameMessage(string.Empty, "MOVE", selectedPawn.Id.ToString());
+        var json = new GameMessage(roomId, "MOVE", selectedPawn.Id.ToString());
         SendMessageToJS(JsonUtility.ToJson(json));
         //}
     }
@@ -377,7 +377,7 @@ public class GameManager : MonoBehaviour
     {
         //if (playerTurn == ownPlayer.Id)
         //{
-        var json = new GameMessage(string.Empty, "ROLL", null);
+        var json = new GameMessage(roomId, "ROLL", null);
 
         SendMessageToJS(JsonUtility.ToJson(json));
         //}
@@ -402,6 +402,7 @@ public class GameManager : MonoBehaviour
         switch (msg.Action)
         {
             case "INIT":
+                roomId = msg.RoomId;
                 string[] args = msg.Args.Split('\n');
 
                 players = new Player[args.Length - 1];

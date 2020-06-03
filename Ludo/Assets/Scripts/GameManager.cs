@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Runtime.InteropServices;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -87,8 +88,6 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         //WebGLInput.captureAllKeyboardInput = false;
-
-        canvas.transform.GetChild(0).gameObject.SetActive(false);
 
         for (int i = 0; i < 4; i++)
         {
@@ -257,7 +256,7 @@ public class GameManager : MonoBehaviour
 
                         Transform playerHUD = canvas.transform.GetChild(2);
                         playerHUD.GetChild(i).gameObject.SetActive(true);
-                        TextMesh t = playerHUD.GetChild(i).GetChild(1).gameObject.GetComponent<TextMesh>();
+                        TextMeshProUGUI t = playerHUD.GetChild(i).GetChild(1).gameObject.GetComponent<TextMeshProUGUI>();
                         t.text = players[i].Name;
 
                         Debug.Log("created player hud");
@@ -316,8 +315,8 @@ public class GameManager : MonoBehaviour
     void UpdateRollVal()
     {
         var trans = canvas.transform.GetChild(2).GetChild(players.First(p => p.Id == playerTurn).TeamId).GetChild(2);
-        trans.GetComponent<TextMesh>().text = "Roll: " + rollVal.ToString();
         trans.gameObject.SetActive(true);
+        trans.GetComponent<TextMeshProUGUI>().text = "Roll: " + rollVal.ToString();
         //canvas.transform.GetChild(3).gameObject.GetComponent<Text>().text = "Roll: " + rollVal.ToString();
     }
 

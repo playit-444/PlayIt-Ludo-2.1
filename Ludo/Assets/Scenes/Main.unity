@@ -980,7 +980,7 @@ MonoBehaviour:
   playerPawns: []
   mainCam: {fileID: 1852001098}
   camPoints: {fileID: 382949316}
-  camMoveSpeed: 2
+  camMoveSpeed: 3
   canvas: {fileID: 336801396}
   text: {fileID: 926012906}
 --- !u!4 &208394584

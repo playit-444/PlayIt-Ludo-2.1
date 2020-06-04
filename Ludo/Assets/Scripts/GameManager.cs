@@ -104,6 +104,12 @@ public class GameManager : MonoBehaviour
             }
         }
 
+        for (int i = 0; i < 4; i++)
+        {
+            tiles[(i * 13) + 2].GetComponent<Tile>().Type = (int)(TileType.GLOBE);
+            tiles[(i * 13) + 10].GetComponent<Tile>().Type = (int)(TileType.GLOBE);
+        }
+
         SendMessageToJS(JsonUtility.ToJson(new GameMessage(string.Empty, "READY", null)));
     }
 
@@ -118,9 +124,6 @@ public class GameManager : MonoBehaviour
     {
         if (Input.GetButtonDown("Fire1"))
         {
-            changingTurns = true;
-            newTeamTrans = camPoints.GetChild(UnityEngine.Random.Range(0,4));
-
             RaycastHit hit;
             Ray ray = mainCam.ScreenPointToRay(Input.mousePosition);
 
@@ -143,10 +146,11 @@ public class GameManager : MonoBehaviour
 
         if (changingTurns)
         {
-            mainCam.transform.position = Vector3.Lerp(mainCam.transform.position, newTeamTrans.position, camMoveSpeed * Time.deltaTime + 0.05f);
-            mainCam.transform.rotation = Quaternion.Lerp(mainCam.transform.rotation, newTeamTrans.rotation, camMoveSpeed * Time.deltaTime + 0.05f);
+            mainCam.transform.position = Vector3.Lerp(mainCam.transform.position, newTeamTrans.position, camMoveSpeed * Time.deltaTime);
+            mainCam.transform.rotation = Quaternion.Lerp(mainCam.transform.rotation, newTeamTrans.rotation, camMoveSpeed * Time.deltaTime);
 
-            if (Vector3.Distance(mainCam.transform.position,newTeamTrans.position) < 0.02f) { 
+            if (Vector3.Distance(mainCam.transform.position, newTeamTrans.position) < 0.02f)
+            {
                 changingTurns = false;
             }
         }
@@ -154,7 +158,6 @@ public class GameManager : MonoBehaviour
 
     void MovePawnToGoal(int idx)
     {
-        Debug.Log("goal move func");
         Pawn pawn = playerPawns[idx];
 
         int availableSpot = 0;
@@ -162,7 +165,7 @@ public class GameManager : MonoBehaviour
         GameObject goal = tiles[72 + pawn.TeamId];
         for (int j = 0; j < 4; j++)
         {
-            if (!(goal.transform.GetChild(j).childCount > 0))
+            if (goal.transform.GetChild(j).childCount < 1)
             {
                 availableSpot = j;
                 Debug.Log("found goal spot");
@@ -177,7 +180,24 @@ public class GameManager : MonoBehaviour
 
     void MovePawnToHome(int idx)
     {
+        Pawn pawn = playerPawns[idx];
 
+        int availableSpot = 0;
+
+        Transform home = homesObject.transform.GetChild(4 + pawn.TeamId);
+        for (int j = 0; j < 4; j++)
+        {
+            if (home.GetChild(j).GetChild(0).childCount < 1)
+            {
+                availableSpot = j;
+                Debug.Log("found home spot");
+                break;
+            }
+        }
+
+        pawn.transform.position = home.GetChild(availableSpot).GetChild(0).position;
+        pawn.transform.SetParent(home.transform.GetChild(availableSpot).GetChild(0).transform);
+        Debug.Log("moved pawn to home success");
     }
 
     [SerializeField]
@@ -325,13 +345,23 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    readonly float[,] pawnFriendPositions =
+        new float[,] {
+            { 0.15f, 0.15f },
+            { 0.15f, -0.15f},
+            { -0.15f, -0.15f},
+            { -0.15f, 0.15f}
+        };
     void MovePawn(int pId, int pos)
     {
         Pawn pawn = playerPawns[pId];
 
         if (pos == -1)
         {
-            //TODO:
+            pawn.Position = pos;
+            pawn.transform.GetChild(0).gameObject.SetActive(false);
+            MovePawnToHome(pId);
+            return;
         }
 
         pawn.transform.GetChild(0).gameObject.SetActive(false);
@@ -339,6 +369,26 @@ public class GameManager : MonoBehaviour
         pawn.transform.position = tiles[pos].transform.GetChild(0).position;
 
         pawn.Position = pos;
+
+        IEnumerable<Pawn> friendPawns = playerPawns.Where(p => p.TeamId == pawn.TeamId && p.Position == pawn.Position);
+
+        if (friendPawns.Count() > 1)
+        {
+            int c = 0;
+            foreach (Pawn p in friendPawns)
+            {
+                p.transform.position += new Vector3(pawnFriendPositions[c, 0], 0f, pawnFriendPositions[c, 1]);
+                p.transform.GetChild(0).gameObject.SetActive(true);
+                c++;
+            }
+        }
+        else if ((tiles[pawn.Position].GetComponent<Tile>().Type & (int)TileType.GLOBE) > 0)
+        {
+            pawn.transform.GetChild(0).gameObject.SetActive(true);
+        }
+        else { 
+            pawn.transform.GetChild(0).gameObject.SetActive(false);
+        }
     }
 
     void UpdateRollVal()
@@ -369,22 +419,6 @@ public class GameManager : MonoBehaviour
         trans = canvas.transform.GetChild(2).GetChild(newTeam).GetChild(2);
         trans.gameObject.SetActive(true);
         trans.GetComponent<TextMeshProUGUI>().SetText("#");
-    }
-
-    private class MoveParams
-    {
-        public Transform trans;
-        public Vector3 from;
-        public Vector3 to;
-        public float time;
-
-        public MoveParams(Transform trans, Vector3 from, Vector3 to, float time)
-        {
-            this.trans = trans;
-            this.from = from;
-            this.to = to;
-            this.time = time;
-        }
     }
 }
 

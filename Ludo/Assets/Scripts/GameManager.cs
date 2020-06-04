@@ -81,7 +81,7 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-        //WebGLInput.captureAllKeyboardInput = false;
+        WebGLInput.captureAllKeyboardInput = false;
         /*var trans = canvas.transform.GetChild(2).GetChild(0).GetChild(2);
         Debug.Log("her");
         trans.gameObject.SetActive(true);

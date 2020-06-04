@@ -7100,19 +7100,7 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1731690929, guid: 9d92f9e7eebfa4347b6598856796a186, type: 3}
-      propertyPath: m_textInfo.characterCount
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1731690929, guid: 9d92f9e7eebfa4347b6598856796a186, type: 3}
-      propertyPath: m_textInfo.wordCount
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1731690929, guid: 9d92f9e7eebfa4347b6598856796a186, type: 3}
-      propertyPath: m_textInfo.lineCount
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1731690929, guid: 9d92f9e7eebfa4347b6598856796a186, type: 3}
-      propertyPath: m_textInfo.pageCount
+      propertyPath: m_enableWordWrapping
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 663572480063925600, guid: 9d92f9e7eebfa4347b6598856796a186,
@@ -7230,6 +7218,11 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 208394583}
+    - target: {fileID: 2732381864796437230, guid: 9d92f9e7eebfa4347b6598856796a186,
+        type: 3}
+      propertyPath: m_enableWordWrapping
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9d92f9e7eebfa4347b6598856796a186, type: 3}
 --- !u!1001 &4429586222779201887

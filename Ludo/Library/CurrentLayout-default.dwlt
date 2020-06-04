@@ -75,7 +75,7 @@ MonoBehaviour:
   m_MinSize: {x: 579, y: 492}
   m_MaxSize: {x: 14002, y: 14042}
   vertical: 0
-  controlID: 56
+  controlID: 36
 --- !u!114 &4
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -246,7 +246,7 @@ MonoBehaviour:
   m_MinSize: {x: 303, y: 492}
   m_MaxSize: {x: 10001, y: 14042}
   vertical: 1
-  controlID: 57
+  controlID: 15
 --- !u!114 &11
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -271,7 +271,7 @@ MonoBehaviour:
   m_MinSize: {x: 303, y: 221}
   m_MaxSize: {x: 8003, y: 4021}
   vertical: 0
-  controlID: 58
+  controlID: 16
 --- !u!114 &12
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -403,19 +403,19 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/prefabs
+    - Assets/Scripts
   m_ViewMode: 1
   m_StartGridSize: 64
   m_LastFolders:
-  - Assets/prefabs
+  - Assets/Scripts
   m_LastFoldersGridSize: -1
   m_LastProjectPath: D:\Github Projects\PlayIt-Ludo-2.1\Ludo
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
     scrollPos: {x: 0, y: 0}
-    m_SelectedIDs: 6e3b0000
-    m_LastClickedID: 15214
+    m_SelectedIDs: 743b0000
+    m_LastClickedID: 15220
     m_ExpandedIDs: 00000000da36000000ca9a3b
     m_RenameOverlay:
       m_UserAcceptedRename: 0
@@ -567,9 +567,9 @@ MonoBehaviour:
   m_SceneHierarchy:
     m_TreeViewState:
       scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: 1cf8ffff
-      m_LastClickedID: -2020
-      m_ExpandedIDs: 30f8ffff40f8ffff50f8ffff64f8ffff4afbffff
+      m_SelectedIDs: 2a360000
+      m_LastClickedID: 0
+      m_ExpandedIDs: 22f8ffff2ef8ffff36f8ffff3ef8ffff4ef8ffff64f8ffff4afbffff
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -631,7 +631,7 @@ MonoBehaviour:
   m_Position:
     m_Target: {x: 764.78015, y: -108.56909, z: 1097.8623}
     speed: 2
-    m_Value: {x: 616.5, y: 266.5, z: 0}
+    m_Value: {x: 764.78015, y: -108.56909, z: 1097.8623}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -679,11 +679,11 @@ MonoBehaviour:
   m_Rotation:
     m_Target: {x: -0.19690469, y: 0.032937016, z: -0.0066129, w: -0.97986203}
     speed: 2
-    m_Value: {x: -0.09305842, y: 0.049861427, z: -0.004662901, w: -0.9944005}
+    m_Value: {x: -0.19690178, y: 0.03293653, z: -0.0066128024, w: -0.97984755}
   m_Size:
     m_Target: 901.5039
     speed: 2
-    m_Value: 671.6357
+    m_Value: 901.5039
   m_Ortho:
     m_Target: 0
     speed: 2

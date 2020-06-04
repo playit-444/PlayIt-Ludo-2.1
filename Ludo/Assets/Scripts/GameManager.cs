@@ -162,7 +162,7 @@ public class GameManager : MonoBehaviour
 
         int availableSpot = 0;
 
-        GameObject goal = tiles[58+(pawn.TeamId*6)];
+        GameObject goal = tiles[57+(pawn.TeamId*6)];
         for (int j = 0; j < 4; j++)
         {
             if (!(goal.transform.GetChild(j).childCount > 0))

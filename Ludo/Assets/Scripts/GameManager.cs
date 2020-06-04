@@ -87,7 +87,6 @@ public class GameManager : MonoBehaviour
     private float camMoveSpeed;
 
     private bool changingTurns = false;
-    private int newTeam;
 
     Transform newTeamTrans;
     private void Update()
@@ -352,7 +351,7 @@ public class GameManager : MonoBehaviour
 
         IEnumerable<Pawn> friendPawns = playerPawns.Where(p => p.TeamId == pawn.TeamId && p.Position == pawn.Position);
 
-        var safe = (tiles[pawn.Position].GetComponent<Tile>().Type & (int)TileType.GLOBE) > (int)TileType.GLOBE || friendPawns.Count() > 1;
+        var safe = (tiles[pawn.Position].GetComponent<Tile>().Type & (int)TileType.GLOBE) == (int)TileType.GLOBE || friendPawns.Count() > 1;
         Debug.Log("pawn " + pawn.Id + " should be safe? " + safe);
 
         if (safe)
@@ -395,29 +394,24 @@ public class GameManager : MonoBehaviour
             playerTurn = newTurn;
         }
 
-        if (!firstTurn)
-        {
-            int teamId = players.First(p => p.Id == playerTurn).TeamId;
-            var trans = canvas.transform.GetChild(2).GetChild(teamId).GetChild(2);
-            trans.GetComponent<TextMeshProUGUI>().SetText("-");
-            playerTurn = newTurn;
+        //if (!firstTurn)
+        //{
+        int teamId = players.First(p => p.Id == playerTurn).TeamId;
+        var trans = canvas.transform.GetChild(2).GetChild(teamId).GetChild(2);
+        trans.GetComponent<TextMeshProUGUI>().SetText("-");
+        playerTurn = newTurn;
 
-            changingTurns = true;
+        teamId = players.First(p => p.Id == playerTurn).TeamId;
 
+        newTeamTrans = camPoints.transform.GetChild(teamId);
 
-            teamId++;
-            if (teamId == players.Length)
-                newTeam = 0;
-            else
-                newTeam = teamId;
+        trans = canvas.transform.GetChild(2).GetChild(teamId).GetChild(2);
+        trans.gameObject.SetActive(true);
+        trans.GetComponent<TextMeshProUGUI>().SetText("#");
 
-            newTeamTrans = camPoints.transform.GetChild(players.Length > 2 ? newTeam : newTeam * 2);
-
-            trans = canvas.transform.GetChild(2).GetChild(players.Length > 2 ? newTeam : newTeam * 2).GetChild(2);
-            trans.gameObject.SetActive(true);
-            trans.GetComponent<TextMeshProUGUI>().SetText("#");
-        }
-        else
+        changingTurns = true;
+        //}
+        /*else
         {
             firstTurn = false;
 
@@ -438,7 +432,7 @@ public class GameManager : MonoBehaviour
             trans = canvas.transform.GetChild(2).GetChild(newTeam).GetChild(2);
             trans.gameObject.SetActive(true);
             trans.GetComponent<TextMeshProUGUI>().SetText("#");
-        }
+        }*/
     }
 }
 

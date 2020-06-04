@@ -120,7 +120,7 @@ public class GameManager : MonoBehaviour
     private int newTeam;
 
     Transform newTeamTrans;
-    private void FixedUpdate()
+    private void Update()
     {
         if (Input.GetButtonDown("Fire1"))
         {
@@ -407,7 +407,7 @@ public class GameManager : MonoBehaviour
 
         int teamId = players.First(p => p.Id == playerTurn).TeamId;
         var trans = canvas.transform.GetChild(2).GetChild(teamId).GetChild(2);
-        trans.GetComponent<TextMeshProUGUI>().SetText(string.Empty);
+        trans.GetComponent<TextMeshProUGUI>().SetText("-");
         playerTurn = newTurn;
 
         changingTurns = true;
@@ -416,8 +416,11 @@ public class GameManager : MonoBehaviour
         teamId++;
         if (teamId == players.Length)
             newTeam = 0;
+        else
+            newTeam = teamId;
 
         newTeamTrans = camPoints.transform.GetChild(newTeam);
+        Debug.Log("new cam point is " + newTeamTrans.ToString());
 
         trans = canvas.transform.GetChild(2).GetChild(newTeam).GetChild(2);
         trans.gameObject.SetActive(true);

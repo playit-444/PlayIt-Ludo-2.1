@@ -81,13 +81,7 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-        //WebGLInput.captureAllKeyboardInput = false;
-        /*var trans = canvas.transform.GetChild(2).GetChild(0).GetChild(2);
-        Debug.Log("her");
-        trans.gameObject.SetActive(true);
-        Debug.Log("h");
-        trans.GetComponent<TextMeshProUGUI>().SetText(rollVal.ToString());
-        Debug.Log("a");*/
+        WebGLInput.captureAllKeyboardInput = false;
 
         for (int i = 0; i < 4; i++)
         {
@@ -106,7 +100,7 @@ public class GameManager : MonoBehaviour
 
             for (int j = 0; j < 5; j++)
             {
-                tiles[52 + j + (i * 6)].GetComponent<MeshRenderer>().material = teamColours[i];
+                tiles[52 + j + (i * 5)].GetComponent<MeshRenderer>().material = teamColours[i];
             }
         }
 
@@ -282,11 +276,11 @@ public class GameManager : MonoBehaviour
                         {
                             ownPlayer = players[i];
                         }
-
+                        /*
                         Color c = teamColours[players[i].TeamId].color;
                         trans.GetComponent<TextMeshProUGUI>().color = c;
                         trans.parent.GetChild(2).GetComponent<TextMeshProUGUI>().color = c;
-
+                        */
                         Debug.Log("created player");
                     }
                     catch (Exception)
@@ -340,7 +334,7 @@ public class GameManager : MonoBehaviour
 
     void UpdateRollVal()
     {
-        var trans = canvas.transform.GetChild(2).GetChild(players.First(p => p.Id == playerTurn).TeamId).GetChild(1);
+        var trans = canvas.transform.GetChild(2).GetChild(players.First(p => p.Id == playerTurn).TeamId).GetChild(2);
         trans.gameObject.SetActive(true);
         trans.GetComponent<TextMeshProUGUI>().SetText(rollVal.ToString());
     }

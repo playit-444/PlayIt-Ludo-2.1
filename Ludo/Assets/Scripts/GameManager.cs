@@ -123,7 +123,6 @@ public class GameManager : MonoBehaviour
     {
         if (Input.GetButtonDown("Fire1"))
         {
-            Debug.Log("fired!");
 
             RaycastHit hit;
             Ray ray = mainCam.ScreenPointToRay(Input.mousePosition);

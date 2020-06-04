@@ -113,10 +113,13 @@ public class GameManager : MonoBehaviour
     private bool changingTurns = false;
     private int newTeam;
 
+    Transform newTeamTrans;
     private void FixedUpdate()
     {
         if (Input.GetButtonDown("Fire1"))
         {
+            changingTurns = true;
+            newTeamTrans = camPoints.GetChild(UnityEngine.Random.Range(0,4));
 
             RaycastHit hit;
             Ray ray = mainCam.ScreenPointToRay(Input.mousePosition);
@@ -140,12 +143,12 @@ public class GameManager : MonoBehaviour
 
         if (changingTurns)
         {
-            Transform t = camPoints.transform.GetChild(newTeam);
-            mainCam.transform.position = Vector3.Lerp(mainCam.transform.position, t.position, camMoveSpeed * Time.deltaTime);
-            mainCam.transform.rotation = Quaternion.Lerp(mainCam.transform.rotation, t.rotation, camMoveSpeed * Time.deltaTime);
+            mainCam.transform.position = Vector3.Lerp(mainCam.transform.position, newTeamTrans.position, camMoveSpeed * Time.deltaTime + 0.05f);
+            mainCam.transform.rotation = Quaternion.Lerp(mainCam.transform.rotation, newTeamTrans.rotation, camMoveSpeed * Time.deltaTime + 0.05f);
 
-            if (mainCam.transform.position == t.position)
+            if (Vector3.Distance(mainCam.transform.position,newTeamTrans.position) < 0.02f) { 
                 changingTurns = false;
+            }
         }
     }
 
@@ -170,6 +173,11 @@ public class GameManager : MonoBehaviour
         pawn.transform.position = goal.transform.GetChild(availableSpot).position;
         pawn.transform.SetParent(goal.transform.GetChild(availableSpot).transform);
         Debug.Log("moved pawn to goal success");
+    }
+
+    void MovePawnToHome(int idx)
+    {
+
     }
 
     [SerializeField]
@@ -346,7 +354,8 @@ public class GameManager : MonoBehaviour
             playerTurn = newTurn;
 
         int teamId = players.First(p => p.Id == playerTurn).TeamId;
-        canvas.transform.GetChild(2).GetChild(teamId).GetChild(2).gameObject.SetActive(true);
+        var trans = canvas.transform.GetChild(2).GetChild(teamId).GetChild(2);
+        trans.gameObject.SetActive(false);
         playerTurn = newTurn;
 
         changingTurns = true;
@@ -354,6 +363,12 @@ public class GameManager : MonoBehaviour
             newTeam = 0;
         else
             newTeam = teamId++;
+
+        newTeamTrans = camPoints.transform.GetChild(newTeam);
+
+        trans = canvas.transform.GetChild(2).GetChild(newTeam).GetChild(2);
+        trans.gameObject.SetActive(true);
+        trans.GetComponent<TextMeshProUGUI>().SetText("#");
     }
 
     private class MoveParams

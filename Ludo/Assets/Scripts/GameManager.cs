@@ -382,11 +382,13 @@ public class GameManager : MonoBehaviour
                 c++;
             }
         }
-        else if ((tiles[pawn.Position].GetComponent<Tile>().Type & (int)TileType.GLOBE) > 0)
+
+        if ((tiles[pawn.Position].GetComponent<Tile>().Type & (int)TileType.GLOBE) > 0)
         {
             pawn.transform.GetChild(0).gameObject.SetActive(true);
         }
-        else { 
+        else
+        {
             pawn.transform.GetChild(0).gameObject.SetActive(false);
         }
     }
@@ -409,10 +411,11 @@ public class GameManager : MonoBehaviour
         playerTurn = newTurn;
 
         changingTurns = true;
-        if (teamId >= players.Length)
+        Debug.Log("changing is " + changingTurns);
+
+        teamId++;
+        if (teamId == players.Length)
             newTeam = 0;
-        else
-            newTeam = teamId++;
 
         newTeamTrans = camPoints.transform.GetChild(newTeam);
 

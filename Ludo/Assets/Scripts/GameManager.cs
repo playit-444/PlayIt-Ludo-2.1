@@ -24,36 +24,6 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private GameObject pawnPrefab;
 
-    public class Tile
-    {
-        [SerializeField]
-        private int index;
-        [SerializeField]
-        private int type;
-
-        public int Index { get; set; }
-        public int Type { get; set; }
-
-        public Tile() { }
-
-        public Tile(int i, int t)
-        {
-            index = i;
-            type = t;
-        }
-    }
-
-    /// <summary>
-    /// Tile type data
-    /// </summary>
-    public enum TileType
-    {
-        NONE = 0,
-        STAR = 1,
-        GLOBE = 2,
-        GOAL_ENTRANCE = 4
-    }
-
     [SerializeField]
     private Vector3[] homePositions;
     [SerializeField]
@@ -226,7 +196,11 @@ public class GameManager : MonoBehaviour
                 p.TeamId = i;
 
                 playerPawns[p.Id] = p;
+
             }
+
+            Transform tr = canvas.transform.GetChild(2);
+            tr.GetChild(i).GetChild(0).GetComponent<RawImage>().color = teamColours[players[i].TeamId].color;
 
             Debug.Log("creates pawns for player: " + players[i].Name);
         }
@@ -281,6 +255,7 @@ public class GameManager : MonoBehaviour
 
                 long.TryParse(args[0], NumberStyles.Integer, CultureInfo.InvariantCulture, out long id);
 
+
                 for (int i = 0; i < args.Length - 1; i++)
                 {
                     string[] obj = args[i + 1].Split('|');
@@ -306,6 +281,9 @@ public class GameManager : MonoBehaviour
                         {
                             ownPlayer = players[i];
                         }
+
+
+
                         /*
                         Color c = teamColours[players[i].TeamId].color;
                         trans.GetComponent<TextMeshProUGUI>().color = c;
@@ -316,11 +294,6 @@ public class GameManager : MonoBehaviour
                     catch (Exception)
                     {
                         throw;
-                    }
-
-                    if (players.Length > 2)
-                    {
-                        camPoints.GetChild(2).SetSiblingIndex(1);
                     }
                 }
 
@@ -379,8 +352,9 @@ public class GameManager : MonoBehaviour
 
         IEnumerable<Pawn> friendPawns = playerPawns.Where(p => p.TeamId == pawn.TeamId && p.Position == pawn.Position);
 
-        var safe = (tiles[pawn.Position].GetComponent<Tile>().Type & (int)TileType.GLOBE) > 0 || friendPawns.Count() > 1;
+        var safe = (tiles[pawn.Position].GetComponent<Tile>().Type & (int)TileType.GLOBE) > (int)TileType.GLOBE || friendPawns.Count() > 1;
         Debug.Log("pawn " + pawn.Id + " should be safe? " + safe);
+
         if (safe)
         {
             int c = 0;
@@ -437,9 +411,9 @@ public class GameManager : MonoBehaviour
             else
                 newTeam = teamId;
 
-            newTeamTrans = camPoints.transform.GetChild(newTeam);
+            newTeamTrans = camPoints.transform.GetChild(players.Length > 2 ? newTeam : newTeam * 2);
 
-            trans = canvas.transform.GetChild(2).GetChild(newTeam).GetChild(2);
+            trans = canvas.transform.GetChild(2).GetChild(players.Length > 2 ? newTeam : newTeam * 2).GetChild(2);
             trans.gameObject.SetActive(true);
             trans.GetComponent<TextMeshProUGUI>().SetText("#");
         }

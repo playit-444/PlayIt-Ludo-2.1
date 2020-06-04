@@ -407,7 +407,7 @@ public class GameManager : MonoBehaviour
 
         int teamId = players.First(p => p.Id == playerTurn).TeamId;
         var trans = canvas.transform.GetChild(2).GetChild(teamId).GetChild(2);
-        trans.gameObject.SetActive(false);
+        trans.GetComponent<TextMeshProUGUI>().SetText(string.Empty);
         playerTurn = newTurn;
 
         changingTurns = true;

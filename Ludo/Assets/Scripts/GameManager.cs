@@ -75,8 +75,6 @@ public class GameManager : MonoBehaviour
     private Camera mainCam;
     [SerializeField]
     private Transform camPoints;
-    [SerializeField]
-    private Transform[] playerHuds;
 
     private Pawn selectedPawn = null;
     private long playerTurn = 0;
@@ -274,11 +272,9 @@ public class GameManager : MonoBehaviour
 
                         string textVal = players[i].Name;
 
-                        Transform playerHUD = playerHuds[i];
-                        playerHUD.gameObject.SetActive(true);
-                        var t = playerHUD.GetChild(1).GetComponent<TextMeshProUGUI>();
-                        Debug.Log("textval is " + textVal);
-                        t.text = textVal;
+                        var trans = canvas.transform.GetChild(2).GetChild(i).GetChild(1);
+                        trans.gameObject.SetActive(true);
+                        trans.GetComponent<TextMeshProUGUI>().SetText(players[i].Name);
 
                         Debug.Log("created player hud");
 
@@ -288,8 +284,8 @@ public class GameManager : MonoBehaviour
                         }
 
                         Color c = teamColours[players[i].TeamId].color;
-                        t.color = c;
-                        playerHUD.GetChild(2).GetComponent<TextMeshProUGUI>().color = c;
+                        trans.GetComponent<TextMeshProUGUI>().color = c;
+                        trans.parent.GetChild(2).GetComponent<TextMeshProUGUI>().color = c;
 
                         Debug.Log("created player");
                     }
@@ -344,7 +340,7 @@ public class GameManager : MonoBehaviour
 
     void UpdateRollVal()
     {
-        var trans = canvas.transform.GetChild(2).GetChild(players.First(p => p.Id == playerTurn).TeamId).GetChild(2);
+        var trans = canvas.transform.GetChild(2).GetChild(players.First(p => p.Id == playerTurn).TeamId).GetChild(1);
         trans.gameObject.SetActive(true);
         trans.GetComponent<TextMeshProUGUI>().SetText(rollVal.ToString());
     }
@@ -355,7 +351,7 @@ public class GameManager : MonoBehaviour
             playerTurn = newTurn;
 
         int teamId = players.First(p => p.Id == playerTurn).TeamId;
-        playerHuds[teamId].GetChild(2).gameObject.SetActive(false);
+        canvas.transform.GetChild(2).GetChild(teamId).GetChild(2).gameObject.SetActive(true);
         playerTurn = newTurn;
 
         changingTurns = true;

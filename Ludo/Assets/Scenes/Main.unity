@@ -625,12 +625,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 305214499}
   m_PrefabAsset: {fileID: 0}
---- !u!224 &99884038 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 7285842615304911701, guid: 9d92f9e7eebfa4347b6598856796a186,
-    type: 3}
-  m_PrefabInstance: {fileID: 663572480266093329}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &119026013 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7500760160094494719, guid: 82fc0f2b6a36fc5409cdd488488d0e68,
@@ -986,11 +980,6 @@ MonoBehaviour:
   playerPawns: []
   mainCam: {fileID: 1852001098}
   camPoints: {fileID: 382949316}
-  playerHuds:
-  - {fileID: 454048603}
-  - {fileID: 270692569}
-  - {fileID: 1213895284}
-  - {fileID: 99884038}
   camMoveSpeed: 2
   canvas: {fileID: 336801396}
   text: {fileID: 926012906}
@@ -1112,12 +1101,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 6493533929699453338, guid: 8e054516c5218b74b93d1b28e249a3ec,
     type: 3}
   m_PrefabInstance: {fileID: 2113452704}
-  m_PrefabAsset: {fileID: 0}
---- !u!224 &270692569 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 1899701978239613853, guid: 9d92f9e7eebfa4347b6598856796a186,
-    type: 3}
-  m_PrefabInstance: {fileID: 663572480266093329}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &293314807
 PrefabInstance:
@@ -1698,12 +1681,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 6493533929699453338, guid: 8e054516c5218b74b93d1b28e249a3ec,
     type: 3}
   m_PrefabInstance: {fileID: 1044621511}
-  m_PrefabAsset: {fileID: 0}
---- !u!224 &454048603 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 851577005477224992, guid: 9d92f9e7eebfa4347b6598856796a186,
-    type: 3}
-  m_PrefabInstance: {fileID: 663572480266093329}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &457078381 stripped
 GameObject:
@@ -4349,12 +4326,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 82fc0f2b6a36fc5409cdd488488d0e68, type: 3}
---- !u!224 &1213895284 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 968609478981107086, guid: 9d92f9e7eebfa4347b6598856796a186,
-    type: 3}
-  m_PrefabInstance: {fileID: 663572480266093329}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1217164277 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6493533929699453337, guid: 080d719e463e8be4fab943be03d87d71,
@@ -7243,11 +7214,6 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 208394583}
-    - target: {fileID: 6094719166764205165, guid: 9d92f9e7eebfa4347b6598856796a186,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9d92f9e7eebfa4347b6598856796a186, type: 3}
 --- !u!1001 &4429586222779201887

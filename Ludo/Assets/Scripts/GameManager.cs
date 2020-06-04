@@ -74,12 +74,6 @@ public class GameManager : MonoBehaviour
             }
         }
 
-        for (int i = 0; i < 4; i++)
-        {
-            tiles[(i * 13) + 2].GetComponent<Tile>().Type = (int)(TileType.GLOBE);
-            tiles[(i * 13) + 10].GetComponent<Tile>().Type = (int)(TileType.GLOBE);
-        }
-
         SendMessageToJS(JsonUtility.ToJson(new GameMessage(string.Empty, "READY", null)));
     }
 
@@ -198,8 +192,8 @@ public class GameManager : MonoBehaviour
 
             }
 
-            Transform tr = canvas.transform.GetChild(2);
-            tr.GetChild(i).GetChild(0).GetComponent<RawImage>().color = teamColours[players[i].TeamId].color;
+            /*Transform tr = canvas.transform.GetChild(2);
+            tr.GetChild(i).GetChild(0).GetComponent<RawImage>().color = teamColours[players[i].TeamId].color;*/
 
             Debug.Log("creates pawns for player: " + players[i].Name);
         }
@@ -269,7 +263,7 @@ public class GameManager : MonoBehaviour
 
                         string textVal = players[i].Name;
 
-                        var trans = canvas.transform.GetChild(2).GetChild(i);
+                        var trans = canvas.transform.GetChild(2).GetChild(players[i].TeamId);
                         trans.gameObject.SetActive(true);
                         trans.GetChild(1).gameObject.SetActive(true);
                         trans.GetChild(1).GetComponent<TextMeshProUGUI>().SetText(players[i].Name);
@@ -410,29 +404,6 @@ public class GameManager : MonoBehaviour
         trans.GetComponent<TextMeshProUGUI>().SetText("#");
 
         changingTurns = true;
-        //}
-        /*else
-        {
-            firstTurn = false;
-
-            int teamId = players.First(p => p.Id == playerTurn).TeamId;
-            var trans = canvas.transform.GetChild(2).GetChild(teamId).GetChild(2);
-            trans.GetComponent<TextMeshProUGUI>().SetText("-");
-            playerTurn = newTurn;
-
-            changingTurns = true;
-
-            if (teamId == players.Length)
-                newTeam = 0;
-            else
-                newTeam = teamId;
-
-            newTeamTrans = camPoints.transform.GetChild(newTeam);
-
-            trans = canvas.transform.GetChild(2).GetChild(newTeam).GetChild(2);
-            trans.gameObject.SetActive(true);
-            trans.GetComponent<TextMeshProUGUI>().SetText("#");
-        }*/
     }
 }
 

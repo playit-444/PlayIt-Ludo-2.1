@@ -355,7 +355,7 @@ public class GameManager : MonoBehaviour
             playerTurn = newTurn;
 
         int teamId = players.First(p => p.Id == playerTurn).TeamId;
-        canvas.transform.GetChild(2).GetChild(teamId).GetChild(2).gameObject.SetActive(false);
+        playerHuds[teamId].GetChild(2).gameObject.SetActive(false);
         playerTurn = newTurn;
 
         changingTurns = true;

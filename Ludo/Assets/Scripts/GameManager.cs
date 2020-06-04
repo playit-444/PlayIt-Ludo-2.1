@@ -266,9 +266,10 @@ public class GameManager : MonoBehaviour
 
                         string textVal = players[i].Name;
 
-                        var trans = canvas.transform.GetChild(2).GetChild(i).GetChild(1);
+                        var trans = canvas.transform.GetChild(2).GetChild(i);
                         trans.gameObject.SetActive(true);
-                        trans.GetComponent<TextMeshProUGUI>().SetText(players[i].Name);
+                        trans.GetChild(1).gameObject.SetActive(true);
+                        trans.GetChild(1).GetComponent<TextMeshProUGUI>().SetText(players[i].Name);
 
                         Debug.Log("created player hud");
 

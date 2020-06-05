@@ -51,7 +51,7 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-        WebGLInput.captureAllKeyboardInput = false;
+        //WebGLInput.captureAllKeyboardInput = false;
 
         for (int i = 0; i < 4; i++)
         {
@@ -186,7 +186,7 @@ public class GameManager : MonoBehaviour
                 p.Id = (i * 4) + j;
                 p.Position = -1;
                 p.Owner = players[i].Id;
-                p.TeamId = i;
+                p.TeamId = players[i].TeamId;
 
                 playerPawns[p.Id] = p;
 
@@ -337,7 +337,7 @@ public class GameManager : MonoBehaviour
             return;
         }
 
-        pawn.transform.GetChild(0).gameObject.SetActive(false);
+        //pawn.transform.GetChild(0).gameObject.SetActive(false);
         int res = pos == -1 ? 0 : (pos - pawn.Position);
         pawn.transform.position = tiles[pos].transform.GetChild(0).position;
 
@@ -345,7 +345,7 @@ public class GameManager : MonoBehaviour
 
         IEnumerable<Pawn> friendPawns = playerPawns.Where(p => p.TeamId == pawn.TeamId && p.Position == pawn.Position);
 
-        var safe = (tiles[pawn.Position].GetComponent<Tile>().Type & (int)TileType.GLOBE) == (int)TileType.GLOBE || friendPawns.Count() > 1;
+        bool safe = (tiles[pawn.Position].GetComponent<Tile>().Type & (int)TileType.GLOBE) == (int)TileType.GLOBE || friendPawns.Count() > 1;
         Debug.Log("pawn " + pawn.Id + " should be safe? " + safe);
 
         if (safe)
@@ -375,7 +375,8 @@ public class GameManager : MonoBehaviour
 
     void UpdateRollVal()
     {
-        var trans = canvas.transform.GetChild(2).GetChild(players.First(p => p.Id == playerTurn).TeamId).GetChild(2);
+        var teamId = players.First(p => p.Id == playerTurn).TeamId;
+        var trans = canvas.transform.GetChild(2).GetChild(players.Length > 2 ? teamId : teamId > 0 ? 2 : 0).GetChild(2);
         trans.gameObject.SetActive(true);
         trans.GetComponent<TextMeshProUGUI>().SetText(rollVal.ToString());
     }
@@ -388,20 +389,14 @@ public class GameManager : MonoBehaviour
             playerTurn = newTurn;
         }
 
-        //if (!firstTurn)
-        //{
         int teamId = players.First(p => p.Id == playerTurn).TeamId;
-        var trans = canvas.transform.GetChild(2).GetChild(teamId).GetChild(2);
-        trans.GetComponent<TextMeshProUGUI>().SetText("-");
+        var trans = canvas.transform.GetChild(2);
+        trans.GetChild(teamId).GetChild(2).GetComponent<TextMeshProUGUI>().SetText("-");
         playerTurn = newTurn;
 
-        teamId = players.First(p => p.Id == playerTurn).TeamId;
-
+        teamId = players.First(p => p.Id == newTurn).TeamId;
         newTeamTrans = camPoints.transform.GetChild(teamId);
-
-        trans = canvas.transform.GetChild(2).GetChild(teamId).GetChild(2);
-        trans.gameObject.SetActive(true);
-        trans.GetComponent<TextMeshProUGUI>().SetText("#");
+        trans.GetChild(teamId).GetChild(2).GetComponent<TextMeshProUGUI>().SetText("#");
 
         changingTurns = true;
     }

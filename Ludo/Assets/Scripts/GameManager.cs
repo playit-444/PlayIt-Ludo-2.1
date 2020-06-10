@@ -131,14 +131,12 @@ public class GameManager : MonoBehaviour
             if (goal.transform.GetChild(j).childCount < 1)
             {
                 availableSpot = j;
-                Debug.Log("found goal spot");
                 break;
             }
         }
 
         pawn.transform.position = goal.transform.GetChild(availableSpot).position;
         pawn.transform.SetParent(goal.transform.GetChild(availableSpot).transform);
-        Debug.Log("moved pawn to goal success");
     }
 
     void MovePawnToHome(int idx)
@@ -153,14 +151,12 @@ public class GameManager : MonoBehaviour
             if (home.GetChild(j).GetChild(0).childCount < 1)
             {
                 availableSpot = j;
-                Debug.Log("found home spot");
                 break;
             }
         }
 
         pawn.transform.position = home.GetChild(availableSpot).GetChild(0).position;
         pawn.transform.SetParent(home.transform.GetChild(availableSpot).GetChild(0).transform);
-        Debug.Log("moved pawn to home success");
     }
 
     [SerializeField]
@@ -188,23 +184,16 @@ public class GameManager : MonoBehaviour
                 playerPawns[p.Id] = p;
 
             }
-
-            /*Transform tr = canvas.transform.GetChild(2);
-            tr.GetChild(i).GetChild(0).GetComponent<RawImage>().color = teamColours[players[i].TeamId].color;*/
-
-            Debug.Log("creates pawns for player: " + players[i].Name);
         }
     }
 
     void SelectPawn(Pawn pawn)
     {
         selectedPawn = pawn;
-        Debug.Log($"trying to select {selectedPawn.name}-{selectedPawn.Owner} with owner: {ownPlayer.Id}");
         if (selectedPawn != null &&
             selectedPawn.Owner == ownPlayer.Id &&
            playerTurn == ownPlayer.Id)
         {
-            Debug.Log("selected " + selectedPawn.name);
             var json = new GameMessage(roomId, "MOVE", selectedPawn.Id.ToString());
             SendMessageToJS(JsonUtility.ToJson(json));
         }
@@ -228,7 +217,6 @@ public class GameManager : MonoBehaviour
     public void HandleMessageFromJS(string message)
     {
         GameMessage msg = JsonUtility.FromJson<GameMessage>(message);
-        Debug.Log($"{msg.RoomId}-{msg.Action}->{msg.Args}");
 
         switch (msg.Action)
         {
@@ -252,8 +240,6 @@ public class GameManager : MonoBehaviour
                         else
                             players[i] = new Player(long.Parse(obj[0], NumberStyles.Integer, CultureInfo.InvariantCulture), obj[1], (i) * 2);
 
-                        Debug.Log(players[i].Id + "|" + players[i].Name);
-
                         string textVal = players[i].Name;
 
                         var trans = canvas.transform.GetChild(2).GetChild(players[i].TeamId);
@@ -261,21 +247,10 @@ public class GameManager : MonoBehaviour
                         trans.GetChild(1).gameObject.SetActive(true);
                         trans.GetChild(1).GetComponent<TextMeshProUGUI>().SetText(players[i].Name);
 
-                        Debug.Log("created player hud");
-
                         if (players[i].Id == id)
                         {
                             ownPlayer = players[i];
                         }
-
-
-
-                        /*
-                        Color c = teamColours[players[i].TeamId].color;
-                        trans.GetComponent<TextMeshProUGUI>().color = c;
-                        trans.parent.GetChild(2).GetComponent<TextMeshProUGUI>().color = c;
-                        */
-                        Debug.Log("created player");
                     }
                     catch (Exception)
                     {
@@ -297,12 +272,9 @@ public class GameManager : MonoBehaviour
                 string[] a = msg.Args.Split('|');
                 if (int.Parse(a[1]) == -2)
                     break;
-                Debug.Log($"{a[0]} moved to pos {a[1]}");
                 MovePawn(int.Parse(a[0]), int.Parse(a[1]));
-                Debug.Log("pawn moved!");
                 break;
             case "GOAL":
-                Debug.Log("moved pawn(" + int.Parse(msg.Args) + ") to spawn");
                 MovePawnToGoal(int.Parse(msg.Args));
                 break;
             default:
@@ -339,7 +311,6 @@ public class GameManager : MonoBehaviour
         IEnumerable<Pawn> friendPawns = playerPawns.Where(p => p.TeamId == pawn.TeamId && p.Position == pawn.Position);
 
         bool safe = (tiles[pawn.Position].GetComponent<Tile>().Type & (int)TileType.GLOBE) == (int)TileType.GLOBE || friendPawns.Count() > 1;
-        Debug.Log("pawn " + pawn.Id + " should be safe? " + safe);
 
         if (safe)
         {

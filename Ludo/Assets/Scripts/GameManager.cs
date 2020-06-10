@@ -166,9 +166,6 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     Canvas canvas;
 
-    [SerializeField]
-    Text text;
-
     void Initialize()
     {
         //set button to active
@@ -225,15 +222,11 @@ public class GameManager : MonoBehaviour
 
     public void SendMessageToJS(string msg)
     {
-        text.text = "TRY U3D: " + msg;
         HandleUnityMessage(msg);
-        text.text = "U3D: " + msg;
     }
 
     public void HandleMessageFromJS(string message)
     {
-        text.text = "JS: " + message;
-
         GameMessage msg = JsonUtility.FromJson<GameMessage>(message);
         Debug.Log($"{msg.RoomId}-{msg.Action}->{msg.Args}");
 

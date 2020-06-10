@@ -1,6 +1,7 @@
 ScriptsOnlyBuild:
   usedScripts:
     Assembly-CSharp.dll:
+    - Assets.Scripts.Tile
     - GameManager
     - Pawn
     Unity.RenderPipelines.Core.Runtime.dll:
@@ -37,6 +38,12 @@ ScriptsOnlyBuild:
     - UnityEngine.Rendering.Universal.UniversalAdditionalCameraData
     - UnityEngine.Rendering.Universal.UniversalRenderPipelineAsset
     - UnityEngine.Rendering.Universal.UniversalRenderPipelineEditorResources
+    Unity.TextMeshPro.dll:
+    - TMPro.TMP_FontAsset
+    - TMPro.TMP_Settings
+    - TMPro.TMP_SpriteAsset
+    - TMPro.TMP_StyleSheet
+    - TMPro.TextMeshProUGUI
     UnityEngine.UI.dll:
     - UnityEngine.EventSystems.EventSystem
     - UnityEngine.EventSystems.StandaloneInputModule
@@ -48,6 +55,7 @@ ScriptsOnlyBuild:
     - UnityEngine.UI.Image
     - UnityEngine.UI.LayoutElement
     - UnityEngine.UI.Mask
+    - UnityEngine.UI.RawImage
     - UnityEngine.UI.ScrollRect
     - UnityEngine.UI.Scrollbar
     - UnityEngine.UI.Text
@@ -73,6 +81,8 @@ ScriptsOnlyBuild:
       Script: {instanceID: 0}
     - Class: 48
       Script: {instanceID: 0}
+    - Class: 49
+      Script: {instanceID: 0}
     - Class: 64
       Script: {instanceID: 0}
     - Class: 65
@@ -83,97 +93,111 @@ ScriptsOnlyBuild:
       Script: {instanceID: 0}
     - Class: 108
       Script: {instanceID: 0}
+    - Class: 109
+      Script: {instanceID: 0}
     - Class: 114
-      Script: {instanceID: 11304}
+      Script: {instanceID: 11326}
     - Class: 114
-      Script: {instanceID: 11306}
+      Script: {instanceID: 11328}
     - Class: 114
-      Script: {instanceID: 11308}
+      Script: {instanceID: 11330}
     - Class: 114
-      Script: {instanceID: 11310}
+      Script: {instanceID: 11332}
     - Class: 114
-      Script: {instanceID: 11312}
+      Script: {instanceID: 11334}
     - Class: 114
-      Script: {instanceID: 11314}
+      Script: {instanceID: 11336}
     - Class: 114
-      Script: {instanceID: 11316}
+      Script: {instanceID: 11338}
     - Class: 114
-      Script: {instanceID: 11402}
+      Script: {instanceID: 11340}
     - Class: 114
-      Script: {instanceID: 11486}
+      Script: {instanceID: 11426}
     - Class: 114
-      Script: {instanceID: 11504}
+      Script: {instanceID: 11510}
     - Class: 114
-      Script: {instanceID: 11628}
+      Script: {instanceID: 11528}
     - Class: 114
-      Script: {instanceID: 11656}
+      Script: {instanceID: 11650}
     - Class: 114
-      Script: {instanceID: 11766}
+      Script: {instanceID: 11678}
     - Class: 114
-      Script: {instanceID: 11970}
+      Script: {instanceID: 11788}
     - Class: 114
-      Script: {instanceID: 12000}
+      Script: {instanceID: 11992}
     - Class: 114
-      Script: {instanceID: 12040}
+      Script: {instanceID: 12022}
     - Class: 114
-      Script: {instanceID: 12130}
+      Script: {instanceID: 12062}
     - Class: 114
-      Script: {instanceID: 12202}
+      Script: {instanceID: 12152}
     - Class: 114
-      Script: {instanceID: 12340}
+      Script: {instanceID: 12190}
     - Class: 114
-      Script: {instanceID: 12380}
+      Script: {instanceID: 12224}
+    - Class: 114
+      Script: {instanceID: 12360}
     - Class: 114
       Script: {instanceID: 12400}
     - Class: 114
-      Script: {instanceID: 12428}
+      Script: {instanceID: 12420}
     - Class: 114
-      Script: {instanceID: 12504}
+      Script: {instanceID: 12448}
     - Class: 114
-      Script: {instanceID: 12678}
+      Script: {instanceID: 12524}
     - Class: 114
-      Script: {instanceID: 12694}
+      Script: {instanceID: 12712}
     - Class: 114
-      Script: {instanceID: 12868}
+      Script: {instanceID: 12720}
     - Class: 114
-      Script: {instanceID: 12908}
+      Script: {instanceID: 12886}
     - Class: 114
-      Script: {instanceID: 12922}
+      Script: {instanceID: 12926}
     - Class: 114
-      Script: {instanceID: 13002}
+      Script: {instanceID: 12928}
     - Class: 114
-      Script: {instanceID: 13024}
+      Script: {instanceID: 12940}
     - Class: 114
-      Script: {instanceID: 13028}
+      Script: {instanceID: 12944}
     - Class: 114
-      Script: {instanceID: 13230}
+      Script: {instanceID: 13020}
     - Class: 114
-      Script: {instanceID: 13278}
+      Script: {instanceID: 13042}
     - Class: 114
-      Script: {instanceID: 13442}
+      Script: {instanceID: 13046}
     - Class: 114
-      Script: {instanceID: 13574}
+      Script: {instanceID: 13172}
     - Class: 114
-      Script: {instanceID: 13600}
+      Script: {instanceID: 13248}
     - Class: 114
-      Script: {instanceID: 13742}
+      Script: {instanceID: 13284}
     - Class: 114
-      Script: {instanceID: 13744}
+      Script: {instanceID: 13298}
     - Class: 114
-      Script: {instanceID: 13768}
+      Script: {instanceID: 13462}
+    - Class: 114
+      Script: {instanceID: 13498}
+    - Class: 114
+      Script: {instanceID: 13594}
+    - Class: 114
+      Script: {instanceID: 13620}
+    - Class: 114
+      Script: {instanceID: 13762}
+    - Class: 114
+      Script: {instanceID: 13764}
     - Class: 114
       Script: {instanceID: 13788}
     - Class: 114
-      Script: {instanceID: 13848}
+      Script: {instanceID: 13808}
     - Class: 114
-      Script: {instanceID: 13884}
+      Script: {instanceID: 13868}
     - Class: 114
-      Script: {instanceID: 13890}
+      Script: {instanceID: 13904}
+    - Class: 114
+      Script: {instanceID: 13910}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
-      Script: {instanceID: 0}
-    - Class: 136
       Script: {instanceID: 0}
     - Class: 157
       Script: {instanceID: 0}
@@ -228,6 +252,12 @@ ScriptsOnlyBuild:
     className: VerticalLayoutGroup
   - hash:
       serializedVersion: 2
+      Hash: 5f1752ed2092162f016c19510c28a8b9
+    assemblyName: UnityEngine.UI.dll
+    namespaceName: UnityEngine.UI
+    className: Button
+  - hash:
+      serializedVersion: 2
       Hash: 4bc4346a71a8df53a6b106f68ef3a190
     assemblyName: UnityEngine.UI.dll
     namespaceName: UnityEngine.UI
@@ -264,7 +294,7 @@ ScriptsOnlyBuild:
     className: Volume
   - hash:
       serializedVersion: 2
-      Hash: b4fc42b020df4b67385e61ff21d513cc
+      Hash: 626925ef558787b2d85c809198164d19
     assemblyName: Unity.TextMeshPro.dll
     namespaceName: TMPro
     className: TMP_Dropdown
@@ -360,7 +390,7 @@ ScriptsOnlyBuild:
     className: DebugUIHandlerVector3
   - hash:
       serializedVersion: 2
-      Hash: 234d407605354852c48e57df17c9a1c6
+      Hash: 234235b9fb07320d11497e08a726cc56
     assemblyName: Unity.TextMeshPro.dll
     namespaceName: TMPro
     className: TMP_InputField
@@ -438,7 +468,7 @@ ScriptsOnlyBuild:
     className: RectMask2D
   - hash:
       serializedVersion: 2
-      Hash: 1103fb0758976355cdf9b7d5ce9cb7e0
+      Hash: d941ab6dd93d37ffdf2277f2ea2375a0
     assemblyName: Unity.TextMeshPro.dll
     namespaceName: TMPro
     className: TMP_SubMeshUI
@@ -486,7 +516,7 @@ ScriptsOnlyBuild:
     className: EventSystem
   - hash:
       serializedVersion: 2
-      Hash: 5cc439bf63c0539d39588e69465ac2ab
+      Hash: b8a5e8091ab0b8861d2add371082c5e0
     assemblyName: Unity.TextMeshPro.dll
     namespaceName: TMPro
     className: TMP_SpriteAsset
@@ -600,12 +630,6 @@ ScriptsOnlyBuild:
     className: VolumeProfile
   - hash:
       serializedVersion: 2
-      Hash: 5f1752ed2092162f016c19510c28a8b9
-    assemblyName: UnityEngine.UI.dll
-    namespaceName: UnityEngine.UI
-    className: Button
-  - hash:
-      serializedVersion: 2
       Hash: 0c9920fb850aff7b5ec756815b7a6fc1
     assemblyName: Unity.RenderPipelines.Universal.Runtime.dll
     namespaceName: UnityEngine.Rendering.Universal
@@ -666,7 +690,7 @@ ScriptsOnlyBuild:
     className: HorizontalLayoutGroup
   - hash:
       serializedVersion: 2
-      Hash: 344a8c2e106a0a4e098e91a52e0af063
+      Hash: 35a9693c388776aaf487636491a20f11
     assemblyName: Unity.TextMeshPro.dll
     namespaceName: TMPro
     className: TMP_FontAsset
@@ -678,7 +702,7 @@ ScriptsOnlyBuild:
     className: DebugUIHandlerColor
   - hash:
       serializedVersion: 2
-      Hash: 0b72c8cb307a829156936043ce529602
+      Hash: e1300922cc039f41ab46a47f4cb05898
     assemblyName: Unity.TextMeshPro.dll
     namespaceName: TMPro
     className: TMP_Settings
@@ -744,7 +768,7 @@ ScriptsOnlyBuild:
     className: RenderObjects
   - hash:
       serializedVersion: 2
-      Hash: 9f34e9d6611e05c266d981bdb6171b6c
+      Hash: 8001a5f7502aab37e42206da015e6914
     assemblyName: Unity.TextMeshPro.dll
     namespaceName: TMPro
     className: TextMeshProUGUI
@@ -760,6 +784,12 @@ ScriptsOnlyBuild:
     assemblyName: Unity.RenderPipelines.Core.Runtime.dll
     namespaceName: UnityEngine.Rendering.UI
     className: DebugUIHandlerVector2
+  - hash:
+      serializedVersion: 2
+      Hash: 98e643c6a587860529177289aeb9b6e6
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: Assets.Scripts
+    className: Tile
   - hash:
       serializedVersion: 2
       Hash: 8d35f16c5022311c6f4d9432be73bfcf
@@ -834,7 +864,7 @@ ScriptsOnlyBuild:
     className: Grain
   - hash:
       serializedVersion: 2
-      Hash: db3e2c79e60b32ea01807a738249acd1
+      Hash: 21d73eda81c18eacd2c91ad5dfaf2e32
     assemblyName: Unity.TextMeshPro.dll
     namespaceName: TMPro
     className: TextMeshPro
@@ -936,7 +966,7 @@ ScriptsOnlyBuild:
     className: Light2D
   - hash:
       serializedVersion: 2
-      Hash: 465693c5848a9de0987ed3cfe866c642
+      Hash: 8fba67c2e7dfbf2bc6d491ce36a72eda
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: GameManager
@@ -973,4 +1003,4 @@ ScriptsOnlyBuild:
   platform: 20
   scenePathNames:
   - Assets/Scenes/Main.unity
-  playerPath: C:/Users/SkraptZz/Documents/GitHub/PlayIt-Hjemmeside/src/assets/games/Ludo
+  playerPath: D:/Github Projects/PlayIt-Ludo-2.1/Ludo/build
